@@ -1,0 +1,6 @@
+# Vim files
+*~
+.*.swp
+
+# Dia files
+*.dia.autosave
