@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^test$ /cgi-bin/test.cgi
+RewriteRule ^ua$ /cgi-bin/ua.cgi
