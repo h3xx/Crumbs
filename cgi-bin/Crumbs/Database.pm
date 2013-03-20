@@ -13,21 +13,13 @@ sub new {
 		@_,
 	}, $class;
 
-	$self->_loadcfg;
-
 	$self
 }
 
-sub _loadcfg {
+
+sub dbi {
 	my $self = shift;
-	my $rc = $self->{'rcfile'};
 
-	die 'No configuration file specified.'
-		unless $rc;
-
-	#$self->{'cfg'} = Config::General->new($rc)->getall;
-	my %cf = Config::General->new($rc)->getall;
-	$self->{'cfg'} = \%cf;
 }
 
 sub cfgvar {
@@ -39,6 +31,12 @@ sub cfgvar {
 sub dsn {
 	my $self = shift;
 
+	# XXX : do I really give a shit?
+#	if ($self->{'dsn'}) {
+#		return $self->{'dsn'};
+#	}
+
+#	$self->{'dsn'} = $self->cfgvar('dsn') || (
 	$self->cfgvar('dsn') || (
 		'dbi:' . $self->cfgvar('dsn_driver') . ':' .
 		join ';', map {

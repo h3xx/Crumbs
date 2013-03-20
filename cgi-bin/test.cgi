@@ -3,22 +3,28 @@
 use strict;
 
 use CGI;
-use Crumbs::Database;
+use Crumbs;
 
 my $cgi = CGI->new;
 
-if ($cgi->http or $cgi->https) {
-	print $cgi->header(
-		'-type'		=> 'text/plain',
-		'-charset'	=> 'utf8',
-	);
-}
 
-my $cdb = Crumbs::Database->new(
+my $c = Crumbs->new(
+	'cgi'		=> $cgi,
 	'rcfile'	=> '../global.conf',
 );
 
+if ($cgi->http or $cgi->https) {
+	print
+	$cgi->header(
+		'-type'		=> 'text/plain',
+		'-charset'	=> 'utf8',
+		'-cookie'	=> $c->sesscookie,
+	);
+}
 
-{use Data::Dumper; print STDOUT Data::Dumper->Dump([$cdb->dsn]);}
+#my $cdb = $c->{'db'};
+
+{use Data::Dumper; print STDOUT Data::Dumper->Dump([$c->sessvar('poop')]);}
+
 
 print "Hello world\n";
