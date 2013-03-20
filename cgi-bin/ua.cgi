@@ -1,5 +1,5 @@
-#!C:\xampp\perl\bin\perl.exe
 #!/usr/bin/perl -w
+#!C:\xampp\perl\bin\perl.exe
 use strict;
 
 use CGI;
