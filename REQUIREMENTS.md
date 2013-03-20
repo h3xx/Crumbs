@@ -1,0 +1,17 @@
+# Database server
+
+* [PostgreSQL](http://www.postgresql.org/) >= 9.2
+
+** PgCrypto extension
+
+# Web server
+
+* (Apache HTTPd)[https://httpd.apache.org/] *(any version within reason?)*
+
+** [Perl](http://www.perl.org/) >= 5.0
+
+# Perl modules
+
+* `[Config::General](http://search.cpan.org/~tlinden/Config-General/)`
+
+* `[DBD::Pg](http://search.cpan.org/~turnstep/DBD-Pg/)`
