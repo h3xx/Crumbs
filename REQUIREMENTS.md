@@ -15,3 +15,5 @@
 * `[Config::General](http://search.cpan.org/~tlinden/Config-General/)`
 
 * `[DBD::Pg](http://search.cpan.org/~turnstep/DBD-Pg/)`
+
+* `[CGI::Session](http://search.cpan.org/~markstos/CGI-Session/)`
