@@ -10,13 +10,13 @@ my $cgi = CGI->new;
 
 my $c = Crumbs->new(
 	'cgi'		=> $cgi,
-	'rcfile'	=> '../global.conf',
+	'rcfile'	=> '../../global.conf',
 );
 
 if ($cgi->http or $cgi->https) {
 	print $c->header;
 }
 
-my $r = $c->controller->user->signup($cgi->param('u'), $cgi->param('e'), $cgi->param('p'));
+my $r = $c->controller->user->reset($cgi->param('e'));
 
 print &encode_json($r);

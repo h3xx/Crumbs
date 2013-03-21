@@ -1,6 +1,6 @@
 RewriteEngine On
-RewriteRule ^test$ /cgi-bin/test.cgi
-RewriteRule ^ua$ /cgi-bin/ua.cgi
+RewriteRule ^test$ /cgi-bin/test.pl
+RewriteRule ^ua$ /cgi-bin/ua.pl
 
-RewriteRule ^(login|signup|verify|reset|setpw|logout|whoami)$ /cgi-bin/useractions/$1.cgi
-RewriteRule ^(pwreset|loginform|verifyform|signupform|resetform|logoutform)$ /cgi-bin/userforms/$1.cgi
+RewriteRule ^(login|signup|verify|reset|setpw|logout|whoami)$ /cgi-bin/useractions/$1.pl
+RewriteRule ^(pwreset|loginform|verifyform|signupform|resetform|logoutform)$ /cgi-bin/userforms/$1.pl

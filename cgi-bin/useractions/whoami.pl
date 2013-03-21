@@ -1,12 +1,13 @@
-#!/usr/bin/perl -w
 #!C:\xampp\perl\bin\perl.exe -w
+#!/usr/bin/perl -w
 use strict;
 
-use CGI;
+use CGI::Carp 'fatalsToBrowser';
+use CGI::Simple;
 use CGI::Session;
 use JSON::PP	qw/ encode_json /;
 
-my $cgi = CGI->new;
+my $cgi = CGI::Simple->new;
 my $session = CGI::Session->load(undef, $cgi, undef);
 $session->new unless defined $session->id;
 

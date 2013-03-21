@@ -1,0 +1,3 @@
+<IfModule env_module>
+    SetEnv PERL5LIB "..;../third_party"
+</IfModule>

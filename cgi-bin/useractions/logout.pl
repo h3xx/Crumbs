@@ -10,7 +10,7 @@ my $cgi = CGI->new;
 
 my $c = Crumbs->new(
 	'cgi'		=> $cgi,
-	'rcfile'	=> '../global.conf',
+	'rcfile'	=> '../../global.conf',
 );
 
 if ($cgi->http or $cgi->https) {
