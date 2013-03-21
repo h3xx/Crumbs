@@ -2,9 +2,9 @@
 #!C:\xampp\perl\bin\perl.exe
 use strict;
 
-use CGI;
+use CGI::Simple;
 
-my $cgi = CGI->new;
+my $cgi = CGI::Simple->new;
 
 if ($cgi->http or $cgi->https) {
 	print $cgi->header(
