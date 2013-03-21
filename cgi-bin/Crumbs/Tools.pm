@@ -9,18 +9,18 @@ use URI::Escape	qw/ uri_escape_utf8 /;
 sub vfy_url {
 	my ($cgi, $un, $vfy) = @_;
 
-	sprintf '%s://%s/verify?u=%s&v=%s',
+	sprintf '%s://%s/verify?u=%s;v=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
 		&uri_escape_utf8($vfy);
-	
+
 }
 
 sub rst_url {
 	my ($cgi, $un, $rst) = @_;
 
-	sprintf '%s://%s/pwreset?u=%s&r=%s',
+	sprintf '%s://%s/pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
