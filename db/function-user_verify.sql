@@ -1,4 +1,4 @@
--- Function: user_verify(integer, character varying)
+-- Function: user_verify(character varying, character varying)
 --
 -- Database engine: PostgreSQL 9.2
 --
@@ -7,27 +7,34 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION user_verify(integer, character varying);
+-- DROP FUNCTION user_verify(character varying, character varying);
 
-CREATE OR REPLACE FUNCTION user_verify(_user_id integer, _verify_string character varying)
-  RETURNS boolean AS
+CREATE OR REPLACE FUNCTION user_verify(_name character varying, _verify_string character varying)
+  RETURNS integer AS
 $BODY$
+
+declare
+	_user_id	integer;
 
 begin
 
-	update "user"
+	update
+		into _user_id
+		"user"
 		set
 			"verified" = true,
 			"verify_string" = null
 		where
-			"user_id" = _user_id and
-			"verify_string" = _verify_string;
+			"user_name" = _name and
+			"verify_string" = _verify_string
+
+		returning "user_id";
 
 	if not found then
-		return false;
+		return null;
 	end if;
 
-	return true;
+	return _user_id;
 end;
 
 $BODY$

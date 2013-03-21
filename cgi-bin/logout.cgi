@@ -4,9 +4,9 @@ use strict;
 
 use CGI;
 use Crumbs;
+use JSON::PP	qw/ encode_json /;
 
 my $cgi = CGI->new;
-
 
 my $c = Crumbs->new(
 	'cgi'		=> $cgi,
@@ -17,9 +17,6 @@ if ($cgi->http or $cgi->https) {
 	print $c->header;
 }
 
-#my $cdb = $c->{'db'};
+my $r = $c->controller->user->logout;
 
-{use Data::Dumper; print STDOUT Data::Dumper->Dump([$c->sessvar('poop')]);}
-
-
-print "Hello world\n";
+print &encode_json($r);

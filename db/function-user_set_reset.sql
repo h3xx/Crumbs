@@ -1,4 +1,4 @@
--- Function: user_set_reset(integer)
+-- Function: user_set_reset(character varying)
 --
 -- Database engine: PostgreSQL 9.2
 -- Dependencies: `pgcrypto' extension
@@ -10,9 +10,9 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION user_set_reset(integer);
+-- DROP FUNCTION user_set_reset(character varying);
 
-CREATE OR REPLACE FUNCTION user_set_reset(_user_id integer)
+CREATE OR REPLACE FUNCTION user_set_reset(_name character varying)
   RETURNS character varying AS
 $BODY$
 
@@ -30,7 +30,7 @@ begin
 			"reset_string" = encode(gen_random_bytes(64), 'hex'::text)
 
 		where
-			"user_id" = _user_id
+			"user_name" = _name
 
 		returning "reset_string";
 

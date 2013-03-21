@@ -4,46 +4,26 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Crumbs::Database	qw//;
-use CGI::Session	qw//;
+use CGI::Session		qw//;
+use Config::General		qw//;
 
 sub new {
 	my $class = shift;
 
 	my $self = bless {
+		#'content-type'	=> 'text/plain',
+		'content-type'	=> 'application/json', # later
 		@_,
 	}, $class;
 
 	$self->_loadcfg;
 
-	$self->{'db'} = Crumbs::Database->new('cfg'=>$self->{'cfg'});
-
-	$self->session;
+	$self->_initsession;
 
 	$self
 }
 
-sub session {
-	my $self = shift;
-
-	$self->{'session'} = CGI::Session->load(undef, $self->{'cgi'}, undef)
-		or die CGI::Session->errstr;
-
-	unless ($self->{'session'}->id) {
-		$self->{'session'}->new;
-	}
-}
-
-sub sessvar {
-	my ($self, $var, $val) = @_;
-
-	if (defined $val) {
-		$self->{'session'}->param($var, $val);
-		return $self->{'session'}->save_param;
-	} else {
-		return $self->{'session'}->param($var);
-	}
-}
+# --- CONFIG METHODS ---
 
 sub _loadcfg {
 	my $self = shift;
@@ -63,10 +43,100 @@ sub cfgvar {
 	$self->{'cfg'}->{$var}
 }
 
+# --- SESSION METHODS ---
+
+sub _initsession {
+	my $self = shift;
+
+	# let's hope this is portable
+	$self->{'session'} = CGI::Session->load(undef, $self->{'cgi'}, undef)
+		or die CGI::Session->errstr;
+
+	$self->{'session'}->new
+		unless defined $self->{'session'}->id;
+}
+
+sub _destroysession {
+	my $self = shift;
+
+	# save session
+	$self->{'session'}->save_param
+		if defined $self->{'session'};
+}
+
+sub sessvar {
+	my ($self, $var, $val) = @_;
+
+	# set the value if defined, else get value
+	defined $val ?
+		$self->{'session'}->param($var, $val) :
+		$self->{'session'}->param($var)
+}
+
 sub sesscookie {
 	my $self = shift;
 
 	$self->{'session'}->cookie
 }
+
+# --- INITIALIZER METHODS ---
+
+sub model {
+	my $self = shift;
+	use Crumbs::Model;
+
+	$self->{'model'} || (
+		$self->{'model'} = Crumbs::Model->new(
+			'cgi'	=> $self->{'cgi'},
+			'cfg'	=> $self->{'cfg'},
+			'session'=> $self->{'session'},
+		)
+	);
+}
+
+sub controller {
+	my $self = shift;
+	use Crumbs::Controller;
+
+	$self->{'controller'} || (
+		$self->{'controller'} = Crumbs::Controller->new(
+			'cgi'	=> $self->{'cgi'},
+			'model'	=> $self->model,
+			'session'=> $self->{'session'},
+		)
+	);
+}
+
+# --- GENERAL METHODS ---
+
+sub header {
+	my $self = shift;
+
+	$self->{'cgi'}->header(
+		'-type'		=> $self->{'content-type'},
+		'-charset'	=> 'utf8',
+		'-cookie'	=> $self->sesscookie,
+	);
+}
+
+sub DESTROY {
+	my $self = shift;
+
+	$self->_destroysession;
+}
+
+=head1 AUTHOR
+
+Dan Church S<E<lt>h3xx@gmx.comE<gt>>
+
+=head1 COPYRIGHT
+
+Copyright 2013 Dan Church.
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+The full text of the license can be found in the LICENSE file included with this module.
+
+=cut
 
 1;
