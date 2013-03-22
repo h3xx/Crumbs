@@ -2,5 +2,5 @@ RewriteEngine On
 RewriteRule ^test$ /cgi-bin/t/test.pl
 RewriteRule ^ua$ /cgi-bin/t/ua.pl
 
-RewriteRule ^(login|signup|verify|reset|setpw|logout|whoami)$ /cgi-bin/useractions/$1.pl
-RewriteRule ^(pwreset|loginform|verifyform|signupform|resetform|logoutform)$ /cgi-bin/userforms/$1.pl
+RewriteRule ^u$ /cgi-bin/useractions.cgi
+RewriteRule ^(pwreset|login|verify|signup|reset|logout)$ /cgi-bin/userforms/$1.cgi

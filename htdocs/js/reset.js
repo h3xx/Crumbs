@@ -6,6 +6,7 @@ $(document).ready(function () {
 	frmelems = $([]).add(emsub).add(email),
 
 	pbar = $("#progressbar")
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		})
@@ -31,7 +32,8 @@ $(document).ready(function () {
 
 			pbar.show(500);
 
-			$.get('reset', {
+			$.get('u', {
+				'a': 'reset',
 				'e': email.val(),
 			}, function (data) {
 				if (data.url) {

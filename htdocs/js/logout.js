@@ -7,13 +7,15 @@ $(document).ready(function () {
 	logout = $('#logout'),
 
 	pbar = $('#progressbar')
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		})
 		.hide();
 
-	$.get('whoami',
+	$.get('u',
 		{
+			'a': 'whoami',
 		}, function (data) {
 			if (data) {
 				if (!data.name && !data.result) {
@@ -34,7 +36,8 @@ $(document).ready(function () {
 			e.preventDefault();
 			pbar.show(500);
 
-			$.post('logout', {
+			$.get('u', {
+				'a': 'logout',
 			}, function (data) {
 				pbar.hide(500);
 				$('#result').text(data.msg);

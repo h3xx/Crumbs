@@ -2,9 +2,10 @@
 #!C:\xampp\perl\bin\perl.exe -w
 use strict;
 
-use CGI;
+use CGI::Simple;
+use HTML::Entities	qw/ encode_entities /;
 
-my $cgi = CGI->new;
+my $cgi = CGI::Simple->new;
 
 print $cgi->header(
 	'-type'		=> 'text/html',
@@ -15,20 +16,26 @@ print <<EOF
 <!DOCTYPE html>
 <html>
 <head>
-<title>Logout</title>
+<title>Verify Your Email</title>
 <link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.1.min.js"></script>
-<script type="text/javascript" src="js/logoutform.js"></script>
+<script type="text/javascript" src="js/verify.js"></script>
 <link rel="stylesheet" type="text/css" href="css/userform.css" />
 </head>
 <body>
-<h1>Logout</h1>
+<h1>Verify Your Email</h1>
 <form>
-<div id="loggedinas"></div>
-<input id="logout" type="submit" name="logout" value="Logout" />
+EOF
+;
+
+printf '<input id="u" type="hidden" name="u" value="%s" />',
+	&encode_entities($cgi->param('u') || '');
+printf '<input id="v" type="hidden" name="v" value="%s" />',
+	&encode_entities($cgi->param('v') || '');
+
+print <<EOF
 </form>
-<div id="gotologin"><a href="loginform" id="loginlink">Log in again</a></div>
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>

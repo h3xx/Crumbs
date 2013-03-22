@@ -12,6 +12,7 @@ $(document).ready(function () {
 	passelems = $([]).add(pass).add(passv),
 
 	pbar = $("#progressbar")
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		})
@@ -57,7 +58,8 @@ $(document).ready(function () {
 
 			pbar.show(500);
 
-			$.post('signup', {
+			$.get('u', {
+				'a': 'signup',
 				'u': name.val(),
 				'p': pass.val(),
 				'e': email.val(),

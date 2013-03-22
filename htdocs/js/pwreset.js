@@ -11,6 +11,7 @@ $(document).ready(function () {
 	passelems = $([]).add(newpw).add(newpwv),
 
 	pbar = $("#progressbar")
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		})
@@ -61,7 +62,8 @@ $(document).ready(function () {
 
 			pbar.show(500);
 
-			$.get('setpw', {
+			$.get('u', {
+				'a': 'setpw',
 				'u': u.val(),
 				'r': r.val(),
 				'p': newpw.val(),
