@@ -9,7 +9,7 @@ use URI::Escape	qw/ uri_escape_utf8 /;
 sub vfy_url {
 	my ($cgi, $un, $vfy) = @_;
 
-	sprintf '%s://%s/verify?u=%s;v=%s',
+	sprintf '%s://%s/u?a=verify?u=%s;v=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
@@ -20,7 +20,7 @@ sub vfy_url {
 sub rst_url {
 	my ($cgi, $un, $rst) = @_;
 
-	sprintf '%s://%s/pwreset?u=%s;r=%s',
+	sprintf '%s://%s/u?a=pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
@@ -50,6 +50,13 @@ sub mail {
 	);
 
 	&sendmail(%mail)
+}
+
+sub is_numeric {
+	foreach my $n (@_) {
+		return 0 unless defined $n and $n =~ /\d[\d.]*/;
+	}
+	1;
 }
 
 =head1 AUTHOR

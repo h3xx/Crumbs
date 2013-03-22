@@ -2,7 +2,7 @@
 #!C:\xampp\perl\bin\perl.exe -w
 use strict;
 
-#use CGI::Carp 'fatalsToBrowser';
+use CGI::Carp 'fatalsToBrowser'; # XXX : turn off when in production
 use CGI::Simple;
 use Crumbs;
 use JSON::PP	qw/ encode_json /;
@@ -20,7 +20,7 @@ if ($cgi->http or $cgi->https) {
 
 my ($a, $r) = ($cgi->param('a'));
 
-if (!defined $a) {
+unless (defined $a) {
 	$r = {
 		'result'=> 0,
 		'msg'	=> 'No action specified.',
@@ -47,7 +47,7 @@ if (!defined $a) {
 } else {
 	$r = {
 		'result'=> 0,
-		'msg'	=> 'Invalid action.'.$a,
+		'msg'	=> 'Invalid action.',
 	};
 }
 

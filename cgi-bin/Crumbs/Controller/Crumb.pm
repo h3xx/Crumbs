@@ -14,6 +14,39 @@ sub new {
 	$self
 }
 
+sub get {
+	my ($self, $lat, $lon, $from_user, $stickpole, $limit) = @_;
+
+	require Crumbs::Tools;
+
+	# record last position
+	# make sure coords are numeric first
+	if (&Crumbs::Tools::is_numeric($lat, $lon)) {
+		$self->{'session'}->param('lastpos', [$lat,$lon]);
+	}
+}
+
+sub put {
+	my ($self, $lat, $lon, $stickpole) = @_;
+
+	require Crumbs::Tools;
+
+	# record last position
+	if (&Crumbs::Tools::is_numeric($lat, $lon)) {
+		$self->{'session'}->param('lastpos', [$lat,$lon]);
+	} else {
+		return {
+			'result'=> 0,
+			'msg'	=> 'FIXME : Figure out where you are.',
+		};
+	}
+
+	return {
+		'result'=> 1,
+		'msg'	=> 'poop',
+	};
+}
+
 =head1 AUTHOR
 
 Dan Church S<E<lt>h3xx@gmx.comE<gt>>

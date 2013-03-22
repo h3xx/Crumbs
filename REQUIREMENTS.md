@@ -17,3 +17,7 @@
 * `[DBD::Pg](http://search.cpan.org/~turnstep/DBD-Pg/)`
 
 * `[CGI::Session](http://search.cpan.org/~markstos/CGI-Session/)`
+
+* `[CGI::Simple](http://search.cpan.org/~andya/CGI-Simple/)`
+
+* `[Geo::IP](http://search.cpan.org/~borisz/Geo-IP/)`
