@@ -4,7 +4,6 @@ use strict;
 
 use CGI::Simple;
 use CGI::Session;
-use HTML::Entities	qw/ encode_entities /;
 
 my $cgi = CGI::Simple->new;
 my $session = CGI::Session->load(undef, $cgi, undef);
@@ -35,7 +34,7 @@ EOF
 ;
 
 printf '<input id="logname" type="text" name="logname" placeholder="Username" value="%s" />',
-	&encode_entities($session->param('user_name') || '');
+	$cgi->escapeHTML($session->param('user_name') || '');
 
 print <<EOF
 <input id="pw" type="password" name="pw" placeholder="Password" />

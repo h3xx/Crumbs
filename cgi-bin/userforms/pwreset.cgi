@@ -3,7 +3,6 @@
 use strict;
 
 use CGI::Simple;
-use HTML::Entities	qw/ encode_entities /;
 
 my $cgi = CGI::Simple->new;
 
@@ -30,9 +29,9 @@ EOF
 ;
 
 printf '<input id="u" type="hidden" name="u" value="%s" />',
-	&encode_entities($cgi->param('u') || '');
+	$cgi->escapeHTML($cgi->param('u') || '');
 printf '<input id="r" type="hidden" name="r" value="%s" />',
-	&encode_entities($cgi->param('r') || '');
+	$cgi->escapeHTML($cgi->param('r') || '');
 
 print <<EOF
 <input id="newpw" type="password" name="newpw" placeholder="Enter a new password" />

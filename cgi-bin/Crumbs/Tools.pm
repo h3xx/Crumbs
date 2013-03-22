@@ -4,16 +4,14 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use URI::Escape	qw/ uri_escape_utf8 /;
-
 sub vfy_url {
 	my ($cgi, $un, $vfy) = @_;
 
 	sprintf '%s://%s/u?a=verify?u=%s;v=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
-		&uri_escape_utf8($un),
-		&uri_escape_utf8($vfy);
+		$cgi->url_encode($un),
+		$cgi->url_encode($vfy);
 
 }
 
@@ -23,8 +21,8 @@ sub rst_url {
 	sprintf '%s://%s/u?a=pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
-		&uri_escape_utf8($un),
-		&uri_escape_utf8($rst);
+		$cgi->url_encode($un),
+		$cgi->url_encode($rst);
 	
 }
 
