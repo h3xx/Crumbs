@@ -8,13 +8,15 @@ $(document).ready(function () {
 	frmelems = $([]).add(login).add(pw).add(logname),
 
 	pbar = $("#progressbar")
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		})
 		.hide();
 
-	$.get('whoami',
+	$.get('u',
 		{
+			'a': 'whoami',
 		}, function (data) {
 			if (data) {
 				if (data.name) {
@@ -35,18 +37,20 @@ $(document).ready(function () {
 			frmelems.attr('disabled', 'disabled');
 			pbar.show(500);
 
-			$.get('login', {
-				'u': logname.val(),
-				'p': pw.val(),
-			}, function (data) {
-				pbar.hide(500);
-				$('#result').text(data.msg);
-				if (!data.result) {
-					frmelems.removeAttr('disabled');
-				} else {
-					// hide now-inaccurate data
-					lia.hide();
-				}
-			});
+			$.get('u',
+				{
+					'a': 'login',
+					'u': logname.val(),
+					'p': pw.val(),
+				}, function (data) {
+					pbar.hide(500);
+					$('#result').text(data.msg);
+					if (!data.result) {
+						frmelems.removeAttr('disabled');
+					} else {
+						// hide now-inaccurate data
+						lia.hide();
+					}
+				});
 		});
 });

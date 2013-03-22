@@ -1,2 +1,5 @@
 AddHandler cgi-script .cgi .pl
 Options +ExecCGI
+<IfModule env_module>
+    SetEnv PERL5LIB "./third_party"
+</IfModule>

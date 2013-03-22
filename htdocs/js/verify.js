@@ -1,10 +1,12 @@
 $(document).ready(function () {
 	var pbar = $("#progressbar")
+		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
 		});
 
-	$.get('verify', {
+	$.get('u', {
+		'a': 'verify',
 		'u': $('#u').val(),
 		'v': $('#v').val(),
 	}, function (data) {
