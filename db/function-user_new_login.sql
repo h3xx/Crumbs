@@ -29,7 +29,21 @@ begin
 
 	if found then
 		-- already exists; can't create
-		raise exception 'User already exists.';
+		--raise exception 'User already exists.';
+		-- return verification string instead
+		select
+			into _verify_string
+			"verify_string"
+			from	"user"
+			where
+				"user_name" = _name and
+				not "verified";
+
+		if not found then
+			raise exception 'User already exists.';
+		end if;
+
+		return _verify_string;
 	end if;
 
 	-- blowfish salt = 128 bits = 16 characters
