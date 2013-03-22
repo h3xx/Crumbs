@@ -1,5 +1,7 @@
 $(document).ready(function () {
-	var pbar = $("#progressbar")
+	var
+	result = $('#result'),
+	pbar = $("#progressbar")
 		.append($('<div>Working...</div>').addClass('progress-label'))
 		.progressbar({
 			value: false,
@@ -12,9 +14,9 @@ $(document).ready(function () {
 	}, function (data) {
 		pbar.hide(500);
 		if (data) {
-			$('#result').text(data.msg);
+			result.text(data.msg);
 		} else {
-			$('#result').text('No data.');
+			result.text('No data.');
 		}
 	});
 });
