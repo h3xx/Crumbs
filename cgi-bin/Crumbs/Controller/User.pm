@@ -40,6 +40,14 @@ sub login {
 sub signup {
 	my ($self, $un, $em, $pw) = @_;
 
+	require Crumbs::Tools;
+	if (!&Crumbs::Tools::is_valid_email($em)) {
+		return {
+			'result'=> 0,
+			'msg'	=> 'Invalid email address.',
+		};
+	}
+
 	my $vfy = $self->{'model'}->user->signup($un, $em, $pw);
 	
 	unless ($vfy) {
@@ -49,13 +57,34 @@ sub signup {
 		};
 	}
 
-	require Crumbs::Tools;
-	return {
-		'result'=> 1,
-		'url'	=> Crumbs::Tools::vfy_url($self->{'cgi'}, $un, $vfy),
-		'msg'	=> 'Successfully signed up.',
-	};
+	my $url = &Crumbs::Tools::vfy_url($self->{'cgi'}, $un, $vfy);
 
+	my %success = (
+		'result'=> 1,
+		'msg'	=> 'Successfully signed up.',
+	);
+
+	unless (
+		$self->{'parent'}->cfgvar('options', 'can_mail') &&
+		&Crumbs::Tools::mail(
+			# to
+			$em,
+			# from
+			$self->{'parent'}->cfgvar('options', 'from_email'),
+			# subject
+			'Verify your Crumbs account',
+			# body
+			'<p>Please <a href="'.$url.'">click here</a> to verify your crumbs account.</p>',
+			# headers?
+		)
+	) {
+		$success{'msg'} .= ' Unable to send verification email though; go here to verify your account: ' . $url;
+		$success{'url'} = $url;
+	} else {
+		$success{'msg'} .= ' Check your email for verification instructions.';
+	}
+
+	\%success
 }
 
 sub verify {
@@ -92,11 +121,35 @@ sub reset {
 	}
 
 	require Crumbs::Tools;
-	return {
+
+	my $url = &Crumbs::Tools::rst_url($self->{'cgi'}, $un, $rst),
+
+	my %success = (
 		'result'=> 1,
-		'url'	=> Crumbs::Tools::rst_url($self->{'cgi'}, $un, $rst),
 		'msg'	=> 'Successfully requested a password reset.',
-	};
+	);
+
+	unless (
+		$self->{'parent'}->cfgvar('options', 'can_mail') &&
+		&Crumbs::Tools::mail(
+			# to
+			$em,
+			# from
+			$self->{'parent'}->cfgvar('options', 'from_email'),
+			# subject
+			'Reset your Crumbs password',
+			# body
+			'<p>Please <a href="'.$url.'">click here</a> reset your password.</p>',
+			# headers?
+		)
+	) {
+		$success{'msg'} .= ' Unable to send password reset email though; go here to reset your password: ' . $url;
+		$success{'url'} = $url;
+	} else {
+		$success{'msg'} .= ' Check your email for instructions.';
+	}
+
+	\%success
 }
 
 sub setpw {

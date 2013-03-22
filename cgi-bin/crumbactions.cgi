@@ -47,7 +47,7 @@ if (!defined $a) {
 } else {
 	$r = {
 		'result'=> 0,
-		'msg'	=> 'Invalid action.'.$a,
+		'msg'	=> 'Invalid action.',
 	};
 }
 

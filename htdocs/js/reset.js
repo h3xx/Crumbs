@@ -29,6 +29,7 @@ $(document).ready(function () {
 
 			frmelems.attr('disabled', 'disabled')
 				.removeClass('ui-state-error');
+			emsub.addClass('ui-button-disabled ui-state-disabled');
 
 			pbar.show(500);
 
@@ -44,6 +45,7 @@ $(document).ready(function () {
 				result.text(data.msg);
 				if (!data.result) {
 					frmelems.removeAttr('disabled');
+					emsub.removeClass('ui-button-disabled ui-state-disabled');
 				}
 			});
 		});

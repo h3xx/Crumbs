@@ -1,9 +1,8 @@
-package Crumbs::Model;
+package Crumbs::Controller::Crumb;
 use strict;
 use warnings;
 
 our $VERSION = '0.01';
-
 
 sub new {
 	my $class = shift;
@@ -13,29 +12,6 @@ sub new {
 	}, $class;
 
 	$self
-}
-
-sub user {
-	my $self = shift;
-	use Crumbs::Model::User		qw//;
-
-	$self->{'user'} || (
-		$self->{'user'} = Crumbs::Model::User->new(
-			'session'=> $self->{'session'},
-			'db'	=> $self->db
-		)
-	);
-}
-
-sub db {
-	my $self = shift;
-	use Crumbs::Model::Database	qw//;
-
-	$self->{'db'} || (
-		$self->{'db'} = Crumbs::Model::Database->new(
-			'parent'	=> $self->{'parent'}
-		)
-	);
 }
 
 =head1 AUTHOR

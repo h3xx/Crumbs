@@ -22,6 +22,21 @@ sub user {
 
 	$self->{'user'} || (
 		$self->{'user'} = Crumbs::Controller::User->new(
+			'parent'=> $self->{'parent'},
+			'cgi'	=> $self->{'cgi'},
+			'model'	=> $self->{'model'},
+			'session'=> $self->{'session'},
+		)
+	);
+}
+
+sub crumb {
+	my $self = shift;
+	use Crumbs::Controller::Crumb;
+
+	$self->{'crumb'} || (
+		$self->{'crumb'} = Crumbs::Controller::Crumb->new(
+			'parent'=> $self->{'parent'},
 			'cgi'	=> $self->{'cgi'},
 			'model'	=> $self->{'model'},
 			'session'=> $self->{'session'},
@@ -44,4 +59,3 @@ The full text of the license can be found in the LICENSE file included with this
 =cut
 
 1;
-

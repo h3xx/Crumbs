@@ -9,7 +9,7 @@ use URI::Escape	qw/ uri_escape_utf8 /;
 sub vfy_url {
 	my ($cgi, $un, $vfy) = @_;
 
-	sprintf '%s://%s/u?a=verify?u=%s;v=%s',
+	sprintf '%s://%s/verify?u=%s;v=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
@@ -20,12 +20,36 @@ sub vfy_url {
 sub rst_url {
 	my ($cgi, $un, $rst) = @_;
 
-	sprintf '%s://%s/u?a=pwreset?u=%s;r=%s',
+	sprintf '%s://%s/pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		&uri_escape_utf8($un),
 		&uri_escape_utf8($rst);
 	
+}
+
+sub is_valid_email {
+	my $em = shift;
+
+	# email regex care of: http://www.regular-expressions.info/email.html
+	# modified to be PCRE
+	$em =~ m/^[\w._%+-]+@[\w.-]+\.[a-z]{2,4}$/i
+}
+
+sub mail {
+	my ($to, $from, $subj, $body, $headers) = @_;
+
+	use Mail::Sendmail	qw/ sendmail /;
+
+	my %mail = (
+		'To'		=> $to,
+		'From'		=> $from,
+		'Message'	=> $body,
+		'Content-Type'	=> 'text/html; charset=utf8',
+		(defined $headers ? %{$headers} : ()),
+	);
+
+	&sendmail(%mail)
 }
 
 =head1 AUTHOR

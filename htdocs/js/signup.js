@@ -55,6 +55,8 @@ $(document).ready(function () {
 
 			frmelems.attr('disabled', 'disabled')
 				.removeClass('ui-state-error');
+			usub.attr('disabled', 'disabled');
+			.addClass('ui-button-disabled ui-state-disabled');
 
 			pbar.show(500);
 
@@ -68,9 +70,11 @@ $(document).ready(function () {
 				result.text(data.msg);
 				if (!data.result) {
 					frmelems.removeAttr('disabled');
+
+					usub.removeAttr('disabled')
+					.removeClass('ui-button-disabled ui-state-disabled');
 				} else {
 					frmelems.val(null).removeClass('ui-state-error');
-					usub.attr('disabled', 'disabled');
 				}
 			});
 		});

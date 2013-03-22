@@ -16,8 +16,6 @@ sub new {
 		@_,
 	}, $class;
 
-	$self->_loadcfg;
-
 	$self->_initsession;
 
 	$self
@@ -25,22 +23,20 @@ sub new {
 
 # --- CONFIG METHODS ---
 
-sub _loadcfg {
-	my $self = shift;
-	my $rc = $self->{'rcfile'};
-
-	die 'No configuration file specified.'
-		unless $rc;
-
-	#$self->{'cfg'} = Config::General->new($rc)->getall;
-	my %cf = Config::General->new($rc)->getall;
-	$self->{'cfg'} = \%cf;
-}
-
 sub cfgvar {
-	my ($self, $var) = @_;
+	my ($self, $sec, $sub) = @_;
 
-	$self->{'cfg'}->{$var}
+	$sec = $self->cfg->{$sec};
+	# we're done if they just want the top section (defined or not)
+	return $sec unless defined $sub;
+
+	unless (defined $sec) {
+		# user wants configuration variable in section that doesn't exist
+		warn "Configuration section $sec doesn't exist.";
+		return undef;
+	}
+
+	return $sec->{$sub}
 }
 
 # --- SESSION METHODS ---
@@ -87,8 +83,8 @@ sub model {
 
 	$self->{'model'} || (
 		$self->{'model'} = Crumbs::Model->new(
+			'parent'=> $self,
 			'cgi'	=> $self->{'cgi'},
-			'cfg'	=> $self->{'cfg'},
 			'session'=> $self->{'session'},
 		)
 	);
@@ -100,11 +96,27 @@ sub controller {
 
 	$self->{'controller'} || (
 		$self->{'controller'} = Crumbs::Controller->new(
+			'parent'=> $self,
 			'cgi'	=> $self->{'cgi'},
 			'model'	=> $self->model,
 			'session'=> $self->{'session'},
 		)
 	);
+}
+
+sub cfg {
+	my $self = shift;
+
+	return $self->{'cfg'} if defined $self->{'cfg'};
+
+	my $rc = $self->{'rcfile'};
+
+	die 'No configuration file specified.'
+		unless $rc;
+
+	#$self->{'cfg'} = Config::General->new($rc)->getall;
+	my %cf = Config::General->new($rc)->getall;
+	$self->{'cfg'} = \%cf;
 }
 
 # --- GENERAL METHODS ---

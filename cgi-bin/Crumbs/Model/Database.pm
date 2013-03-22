@@ -29,9 +29,8 @@ sub dbi {
 
 	return $self->{'dbi'} if defined $self->{'dbi'};
 
-	$self->{'dbi'} = DBI->connect($self->_dsn, $self->cfgvar('user'), $self->cfgvar('password'))
+	$self->{'dbi'} = DBI->connect($self->_dsn, $self->db_cfgvar('user'), $self->db_cfgvar('password'))
 }
-
 
 sub _dsn {
 	my $self = shift;
@@ -41,11 +40,11 @@ sub _dsn {
 	#	return $self->{'dsn'};
 	#}
 
-	#$self->{'dsn'} = $self->cfgvar('dsn') || (
-	$self->cfgvar('dsn') || (
-		'dbi:' . $self->cfgvar('dsn_driver') . ':' .
+	#$self->{'dsn'} = $self->db_cfgvar('dsn') || (
+	$self->db_cfgvar('dsn') || (
+		'dbi:' . $self->db_cfgvar('dsn_driver') . ':' .
 		join ';', map {
-			my $v = $self->cfgvar("dsn_$_");
+			my $v = $self->db_cfgvar("dsn_$_");
 			$v ? "$_=$v" : ()
 		} qw/ host port dbname /
 	)
@@ -53,10 +52,10 @@ sub _dsn {
 
 # --- CONFIG METHODS ---
 
-sub cfgvar {
+sub db_cfgvar {
 	my ($self, $var) = @_;
 
-	$self->{'cfg'}->{'database'}->{$var}
+	$self->{'parent'}->cfgvar('database', $var)
 }
 
 =head1 AUTHOR
