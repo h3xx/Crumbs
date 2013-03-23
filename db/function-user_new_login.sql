@@ -37,6 +37,7 @@ begin
 			from	"user"
 			where
 				"user_name" = _name and
+				"user_email" = _email and
 				not "verified";
 
 		if not found then
