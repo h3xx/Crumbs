@@ -14,6 +14,7 @@ sub new {
 	$self
 }
 
+# query crumbs in the area
 sub get {
 	my ($self, $lat, $lon, $from_user, $stickpole, $limit) = @_;
 
@@ -33,6 +34,12 @@ sub get {
 	};
 }
 
+# query sticking poles in the area
+sub pole {
+	my ($self, $lat, $lon, $limit) = @_;
+}
+
+# post a crumb
 sub put {
 	my ($self, $lat, $lon, $stickpole) = @_;
 
@@ -71,19 +78,23 @@ sub _pos {
 	return $pos if defined $pos;
 
 	# step 3: determine from IP address
-	my $cli_addr = $self->{'cgi'}->remote_addr;
+	if ($self->{'parent'}->cfgvar('options', 'enable_geoip')) {
+		my $cli_addr = $self->{'cgi'}->remote_addr;
+		unless (defined $cli_addr and $cli_addr !~ /^(127\.0\.0\.1|192\.168\.|10\.0)/) {
+			# local network address, can't use it
+			return undef;
+		}
 
-	unless (defined $cli_addr and $cli_addr !~ /^(127\.0\.0\.1|192\.168\.|10\.0)/) {
-		# local network address, can't use it
-		return undef;
+		use Geo::IP;
+		my $gi = Geo::IP->open($self->{'parent'}->cfgvar('geoip', 'database'), GEOIP_STANDARD);
+		return undef unless defined $gi;
+
+		my $record = $gi->record_by_addr($cli_addr);
+		$pos = [ $record->latitude, $record->longitude ] if defined $record;
+
+		$self->{'session'}->param('lastpos', $pos);
 	}
 
-	use Geo::IP;
-	my $gi = Geo::IP->open('/usr/share/GeoIP/GeoIPCity.dat', GEOIP_STANDARD);
-	my $record = $gi->record_by_addr($cli_addr);
-	$pos = [ $record->latitude, $record->longitude ] if defined $record;
-
-	$self->{'session'}->param('lastpos', $pos);
 	return $pos;
 }
 
