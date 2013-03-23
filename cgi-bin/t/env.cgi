@@ -5,9 +5,6 @@ use strict;
 use CGI::Simple;
 use CGI::Session;
 
-#use URI::Escape	qw/ uri_escape_utf8 /;
-#use HTML::Entities	qw/ encode_entities /;
-
 my $cgi = CGI::Simple->new;
 my $session = CGI::Session->load(undef, $cgi, undef);
 $session->new unless defined $session->id;
