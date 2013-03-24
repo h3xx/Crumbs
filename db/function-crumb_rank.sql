@@ -25,7 +25,7 @@ begin
 
 	_ago := extract(epoch from now() - _when);
 
-	return (geo_distance(_where, _pos) * 1000)::integer * _ago * _ago;
+	return (geo_distance(_where, _pos) * 1000 * _ago * _ago)::integer;
 
 end;
 
