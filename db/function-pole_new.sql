@@ -22,6 +22,7 @@ begin
 
 	-- try 100 times to insert a pole
 	for i in 1..100 loop
+		begin
 		insert
 			into "pole"
 			into _pole_id
@@ -37,16 +38,17 @@ begin
 			values(_name, _pos, _locked_post, _locked_read, _post_distlimit, _read_distlimit, _owner, _private_post, _private_read)
 			returning "pole_id";
 
-		if _pole_id is null then
-			select log_collision('Pole insertion collision: ' || i);
-		else
+		exception
+		when others then
+			perform log_collision('Pole insertion collision: ' || i);
+		end;
+		if _pole_id is not null then
 			return _pole_id;
 		end if;
 	end loop;
 
-	select log_failure('Failed to insert pole; 100 consecutive collisions');
-
-	return null;
+	perform log_failure('Failed to insert pole; 100 consecutive collisions');
+	raise exception 'Failed to insert pole; 100 consecutive collisions';
 end;
 
 $BODY$
@@ -62,6 +64,7 @@ declare
 begin
 	-- try 100 times to insert a pole
 	for i in 1..100 loop
+		begin
 		insert
 			into "pole"
 			into _pole_id
@@ -71,16 +74,18 @@ begin
 			values(_name, _pos, _owner)
 			returning "pole_id";
 
-		if _pole_id is null then
-			select log_collision('Pole insertion collision: ' || i);
-		else
+		exception
+		when others then
+			perform log_collision('Pole insertion collision: ' || i);
+		end;
+
+		if _pole_id is not null then
 			return _pole_id;
 		end if;
 	end loop;
 
-	select log_failure('Failed to insert pole; 100 consecutive collisions');
-
-	return null;
+	perform log_failure('Failed to insert pole; 100 consecutive collisions');
+	raise exception 'Failed to insert pole; 100 consecutive collisions';
 end;
 
 $BODY$

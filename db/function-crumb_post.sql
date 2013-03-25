@@ -54,23 +54,25 @@ begin
 
 	-- try 100 times to insert a crumb
 	for i in 1..100 loop
+		begin
 		insert
 			into "crumb"
 			into _crumb_id
 			("locked_read", "posted_time", "pole_id", "owner", "message", "reply_to", "pos")
 			values(_locked_read, _posted_time, _pole_id, _owner, _message, _reply_to, _pos)
 			returning "crumb_id";
+		exception
+		when others then
+			perform log_collision('Crumb insertion collision: ' || i);
+		end;
 
-		if _crumb_id is null then
-			select log_collision('Crumb insertion collision: ' || i);
-		else
+		if _crumb_id is not null then
 			return _crumb_id;
 		end if;
 	end loop;
 
-	select log_failure('Failed to insert crumb; 100 consecutive collisions');
-
-	return null;
+	perform log_failure('Failed to insert crumb; 100 consecutive collisions');
+	raise exception 'Failed to insert crumb; 100 consecutive collisions';
 end;
 
 $BODY$
