@@ -22,10 +22,24 @@ print q%<!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/geo.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-	var d = new Date();
-	$('#output').text(d.toISOString());
+	if (!window.geo) {
+		alert('Fail');
+	}
+	window.geo.get(
+		function (last) {
+			for (var i in last) {
+				$('#output').append(
+					$('<div></div>').text(i + ': ' + window.geo.last[i])
+				);
+			}
+		},
+		function (errorStr) {
+			alert(errorStr);
+		}
+	);
 });
 </script>
 </head>

@@ -15,29 +15,25 @@ print $cgi->header(
 	'-cookie'	=> $session->cookie,
 );
 
-print <<EOF
-<!DOCTYPE html>
+print q%<!DOCTYPE html>
 <html>
 <head>
 <title>Login Form</title>
-<link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.10.1.min.js"></script>
+<link rel="stylesheet" href="css/jquery-ui-1.10.2.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jq/jquery-ui-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <link rel="stylesheet" type="text/css" href="css/userform.css" />
 </head>
 <body>
 <h1>Login Form</h1>
 <form>
-<div id="loggedinas"></div>
-EOF
-;
+<div id="loggedinas"></div>%;
 
 printf '<input id="logname" type="text" name="logname" placeholder="Username" value="%s" />',
 	$cgi->escapeHTML($session->param('user_name') || '');
 
-print <<EOF
-<input id="pw" type="password" name="pw" placeholder="Password" />
+print q%<input id="pw" type="password" name="pw" placeholder="Password" />
 <input id="login" type="submit" name="login" value="Login" />
 </form>
 <span id="gotoreset"><a href="resetform" id="resetlink">Reset your password</a></span> &middot;
@@ -45,6 +41,4 @@ print <<EOF
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>
-</html>
-EOF
-;
+</html>%;

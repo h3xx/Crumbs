@@ -4,6 +4,8 @@ use strict;
 use CGI::Carp 'fatalsToBrowser';
 use CGI::Simple;
 use CGI::Session;
+use JSON::PP	qw/ encode_json /;
+use Date::Parse	qw/ strptime /;
 
 my $cgi = CGI::Simple->new;
 my $session = CGI::Session->load(undef, $cgi, undef);
@@ -14,22 +16,11 @@ if ($cgi->http or $cgi->https) {
 		'-type'		=> 'text/html',
 		'-charset'	=> 'utf8',
 		'-cookie'	=> $session->cookie,
-		'-expires'	=> '+3d',
 	);
 }
 
-print q%<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-	var d = new Date();
-	$('#output').text(d.toISOString());
-});
-</script>
-</head>
-<body>
-<div id="output"></div>
-</body>
-</html>%;
+my $datestring = $cgi->param('d');
+
+my $r = [&strptime($datestring)];
+
+print &encode_json($r);

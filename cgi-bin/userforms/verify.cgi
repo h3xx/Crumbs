@@ -11,33 +11,27 @@ print $cgi->header(
 	'-charset'	=> 'utf8',
 );
 
-print <<EOF
-<!DOCTYPE html>
+print q%<!DOCTYPE html>
 <html>
 <head>
 <title>Verify Your Email</title>
-<link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.10.1.min.js"></script>
+<link rel="stylesheet" href="css/jquery-ui-1.10.2.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jq/jquery-ui-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/verify.js"></script>
 <link rel="stylesheet" type="text/css" href="css/userform.css" />
 </head>
 <body>
 <h1>Verify Your Email</h1>
-<form>
-EOF
-;
+<form>%;
 
 printf '<input id="u" type="hidden" name="u" value="%s" />',
 	$cgi->escapeHTML($cgi->param('u') || '');
 printf '<input id="v" type="hidden" name="v" value="%s" />',
 	$cgi->escapeHTML($cgi->param('v') || '');
 
-print <<EOF
-</form>
+print q%</form>
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>
-</html>
-EOF
-;
+</html>%;
