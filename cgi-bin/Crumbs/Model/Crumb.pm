@@ -23,6 +23,18 @@ sub add_crumb {
 
 }
 
+sub delete_crumb {
+	my ($self, $uid, $crumb_id) = @_;
+
+	return 0 unless defined $uid and defined $crumb_id;
+
+	my $q = $self->{'db'}->prepare('select crumb_delete(?,?)');
+
+	return 0 unless $q->execute($uid, $crumb_id);
+
+	($q->fetchrow_array)[0]
+}
+
 =head1 AUTHOR
 
 Dan Church S<E<lt>h3xx@gmx.comE<gt>>

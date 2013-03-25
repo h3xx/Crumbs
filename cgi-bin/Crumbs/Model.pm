@@ -22,9 +22,20 @@ sub user {
 	$self->{'user'} || (
 		$self->{'user'} = Crumbs::Model::User->new(
 			'session'=> $self->{'session'},
-			'db'	=> $self->db
+			'db'	=> $self->db,
 		)
-	);
+	)
+}
+
+sub crumb {
+	my $self = shift;
+	use Crumbs::Model::Crumb	qw//;
+
+	$self->{'user'} || (
+		$self->{'user'} = Crumbs::Model::Crumb->new(
+			'db'	=> $self->db,
+		)
+	)
 }
 
 sub db {
@@ -33,9 +44,9 @@ sub db {
 
 	$self->{'db'} || (
 		$self->{'db'} = Crumbs::Model::Database->new(
-			'parent'	=> $self->{'parent'}
+			'parent'	=> $self->{'parent'},
 		)
-	);
+	)
 }
 
 =head1 AUTHOR

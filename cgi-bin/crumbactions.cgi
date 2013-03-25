@@ -31,6 +31,9 @@ unless (defined $a) {
 } elsif ($a eq 'put') {
 	# lat, lon, from_user, stickpole, limit
 	$r = $c->controller->crumb->put(map {$cgi->param($_)} qw/ lat lon sp /);
+} elsif ($a eq 'del') {
+	# crumb_id
+	$r = $c->controller->crumb->del($cgi->param('cid'));
 } else {
 	$r = {
 		'result'=> 0,

@@ -42,6 +42,12 @@ sub pole {
 # post a crumb
 sub put {
 	my ($self, $lat, $lon, $stickpole) = @_;
+	my $uid = $self->{'session'}->param('user_id');
+
+	return {
+		'result'=> 0,
+		'msg'	=> 'You are not logged in.',
+	} unless defined $uid;
 
 	# get position
 	my $pos = $self->_pos($lat, $lon);
@@ -56,6 +62,28 @@ sub put {
 		'result'=> 1,
 		'pos'	=> $pos,
 		'msg'	=> 'poop',
+	};
+}
+
+sub del {
+	my ($self, $cid) = @_;
+	my $uid = $self->{'session'}->param('user_id');
+
+	return {
+		'result'=> 0,
+		'msg'	=> 'You are not logged in.',
+	} unless defined $uid;
+
+	unless ($self->{'model'}->crumb->delete_crumb($uid, $cid)) {
+		return {
+			'result'=> 0,
+			'msg'	=> 'Failed to delete crumb.',
+		};
+	}
+
+	return {
+		'result'=> 1,
+		'msg'	=> 'Successfully deleted crumb.',
 	};
 }
 
