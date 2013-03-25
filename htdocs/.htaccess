@@ -5,3 +5,5 @@ RewriteRule ^u$ /cgi-bin/useractions.cgi
 RewriteRule ^(pwreset|login|verify|signup|reset|logout)$ /cgi-bin/userforms/$1.cgi
 
 RewriteRule ^c$ /cgi-bin/crumbactions.cgi
+
+RewriteRule ^m$ /cgi-bin/index.mobile.cgi
