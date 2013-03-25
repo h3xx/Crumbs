@@ -1,9 +1,10 @@
 -- Function: crumb_delete(integer, character varying)
 --
 -- Database engine: PostgreSQL 9.2
--- Dependencies: `earthdistance' extension
 --
--- Determine whether a user can reply to a given crumb.
+-- Mark a crumb as deleted.
+--
+-- (Checks first.)
 --
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
