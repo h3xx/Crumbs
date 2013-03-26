@@ -2,6 +2,8 @@
 #!C:\xampp\perl\bin\perl.exe -w
 use strict;
 
+use lib '..', '../third_party';
+
 use CGI::Simple;
 
 my $cgi = CGI::Simple->new;
@@ -15,7 +17,7 @@ print q%<!DOCTYPE html>
 <html>
 <head>
 <title>Password Reset Request Form</title>
-<link rel="stylesheet" href="css/jquery-ui-1.10.2.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/jquery-ui-1.10.2.min.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/jq/jquery-ui-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/reset.js"></script>

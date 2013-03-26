@@ -1,6 +1,8 @@
 #!/usr/bin/perl -w
 use strict;
 
+use lib '..', '../third_party';
+
 #use CGI::Carp 'fatalsToBrowser';
 use CGI::Simple;
 use CGI::Session;

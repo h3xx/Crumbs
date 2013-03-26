@@ -2,6 +2,8 @@
 #!C:\xampp\perl\bin\perl.exe -w
 use strict;
 
+use lib '.', 'third_party';
+
 use CGI::Carp 'fatalsToBrowser'; # XXX : turn off when in production
 use CGI::Simple;
 use Crumbs;

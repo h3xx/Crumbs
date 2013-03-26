@@ -2,6 +2,8 @@
 #!C:\xampp\perl\bin\perl.exe
 use strict;
 
+use lib '..', '../third_party';
+
 use CGI::Simple;
 
 my $cgi = CGI::Simple->new;
