@@ -55,7 +55,7 @@ $(document).ready(function () {
 
 			frmelems.attr('disabled', 'disabled')
 				.removeClass('ui-state-error');
-			usub.attr('disabled', 'disabled');
+			usub.attr('disabled', 'disabled')
 			.addClass('ui-button-disabled ui-state-disabled');
 
 			pbar.show(500);
