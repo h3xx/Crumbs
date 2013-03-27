@@ -87,7 +87,7 @@ print q%<input id="logout" type="submit" value="Logout" data-role="back" data-th
 </div>
 <div id="linkbar" data-role="footer">%;
 
-printf '<div id="gotologin"><a href="login%s" id="loginlink">Log in again</a></div>',
+printf '<div id="gotologin"><a href="login%s" id="loginlink" data-role="button" data-inline="true">Log in again</a></div>',
 	(defined $cgi->param('m') ? '?m=' : '');
 
 print q%</div>

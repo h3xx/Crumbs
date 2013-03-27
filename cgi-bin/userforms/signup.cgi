@@ -95,8 +95,8 @@ print q%</div>
 </div>
 <div id="linkbar" data-role="footer">%;
 
-printf '<span id="gotologin"><a href="login%s" id="loginlink">Log in</a></span> &middot;'.
-	'<span id="gotoreset"><a href="reset%s" id="resetlink">Reset your password</a></span>',
+printf '<span id="gotologin"><a href="login%s" id="loginlink" data-role="button" data-inline="true">Log in</a></span> &middot;'.
+	'<span id="gotoreset"><a href="reset%s" id="resetlink" data-role="button" data-inline="true">Reset your password</a></span>',
 	(defined $cgi->param('m') ? '?m=' : '') x 2;
 
 print q%</div>

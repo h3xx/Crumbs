@@ -5,12 +5,7 @@
 }
 
 #linkbar, #result, #loggedinas {
-	font-size: 150%;
+	font-size: 100%;
 }
 
 #cancel, #emsub, #usub {}
-
-a:link, a:visited {
-	text-decoration: none;
-	color: red;
-}

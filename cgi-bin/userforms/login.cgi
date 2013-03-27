@@ -92,8 +92,8 @@ print q%<input id="loginsub" type="submit" value="Login" data-rel="back" data-th
 </div>
 <div id="linkbar" data-role="footer">%;
 
-printf '<span id="gotoreset"><a href="reset%s" id="resetlink">Reset your password</a></span> &middot;'.
-	'<span id="gotosignup"><a href="signup%s" id="signuplink">Sign up</a></span>',
+printf '<span id="gotoreset"><a href="reset%s" id="resetlink" data-role="button" data-inline="true">Reset your password</a></span> &middot;'.
+	'<span id="gotosignup"><a href="signup%s" id="signuplink" data-role="button" data-inline="true">Sign up</a></span>',
 	(defined $cgi->param('m') ? '?m=' : '') x 2;
 
 print q%</div>

@@ -77,7 +77,7 @@ print q%<input id="newpw" type="password" name="p" placeholder="Enter a new pass
 </form>
 </div>
 <div id="linkbar" data-role="footer">
-<a href="#" onclick="history.back();" id="gobacklink">Go back</a>
+<a href="#" onclick="history.back();" id="gobacklink" data-role="button" data-inline="true">Go back</a>
 </div>
 </body>
 </html>%;
