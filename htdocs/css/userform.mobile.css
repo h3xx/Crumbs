@@ -1,18 +1,14 @@
 @import url('overrides.css');
 
-body {
-	margin: 10px !important;
-}
-
 #progressbar {
 	width: 250px;
 }
 
-#gotoreset,
-#gotologin,
-#gotosignup {
-	font-size: 75%;
+#linkbar, #result, #loggedinas {
+	font-size: 150%;
 }
+
+#cancel, #emsub, #usub {}
 
 a:link, a:visited {
 	text-decoration: none;

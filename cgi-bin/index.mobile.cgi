@@ -20,25 +20,37 @@ if ($cgi->http or $cgi->https) {
 	);
 }
 
+my @scripts = qw[
+	js/jq/jquery-1.9.1.min.js
+	js/mobile.ui.loginpage.js
+	js/mobile.js
+	js/jq/jquery.mobile-1.3.0.min.js
+];
+
+my @styles = qw[
+	css/jquery.mobile-1.3.0.min.css
+	css/mobile.css
+];
+
 print q%<!DOCTYPE html>
 <html>
 <head>
 <title>Crumbs</title>
-<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.0.min.css" />
-<link rel="stylesheet" type="text/css" href="css/mobile.css" />
-<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jq/jquery.mobile-1.3.0.min.js"></script>
-<script type="text/javascript" src="js/mobile.js"></script>
-<script type="text/javascript" src="js/mobile.ui.loginpanel.js"></script>
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">%;
+
+printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
+printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
+
+print q%</head>
 <body>%;
 
-printf '<input type="hidden" id="uid" name="uid" value="%s" />',
+printf '<input type="text" id="uid" name="uid" value="%s" />',
 	$cgi->escapeHTML($session->param('user_id') || '');
 
 printf '<input type="hidden" id="un" name="un" value="%s" />',
 	$cgi->escapeHTML($session->param('user_name') || '');
 
-print q%<div id="mobpage"></div>
+print q%<div id="mobsite">
+</div>
 </body>
 </html>%;

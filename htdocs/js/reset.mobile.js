@@ -2,27 +2,10 @@ $(document).ready(function () {
 	var
 	rform = $('#resetform'),
 	emsub = $('#emsub').button(),
-	cancel = $('#cancel').button(),
 	email = $('#email'),
 	result = $('#result'),
-	frmelems = $([]).add(emsub).add(email),
-
-	pbar = $("#progressbar")
-		.append($('<div>Working...</div>').addClass('progress-label'))
-		.progressbar({
-			value: false,
-		})
-		.hide();
-
-	frmelems
-		.change(function (e) {
-			var self = $(this);
-			if (!self.val()) {
-				self.addClass('ui-state-error');
-			} else {
-				self.removeClass('ui-state-error');
-			}
-		});
+	okbtn = $('#okbtn').hide(),
+	frmelems = $([]).add(emsub).add(email);
 
 	rform
 		.submit(function(e) {
@@ -32,8 +15,6 @@ $(document).ready(function () {
 				.removeClass('ui-state-error');
 			emsub.addClass('ui-button-disabled ui-state-disabled');
 
-			pbar.show(500);
-
 			$.get('u', {
 				'a': 'reset',
 				'e': email.val(),
@@ -41,12 +22,13 @@ $(document).ready(function () {
 				if (data.url) {
 					alert(data.url);
 				}
-				pbar.hide(500);
 				email.val(null);
 				result.text(data.msg);
 				if (!data.result) {
 					frmelems.removeAttr('disabled');
 					emsub.removeClass('ui-button-disabled ui-state-disabled');
+				} else {
+					rform.hide(500);
 				}
 			});
 

@@ -1,27 +1,19 @@
 $(document).ready(function () {
 	var
 	lform = $('#loginform'),
-	login = $('#loginsub').button(),
-	cancel = $('#cancel').button(),
+	login = $('#login').button(),
 	pw = $('#pw'),
 	logname = $('#logname'),
 	result = $('#result'),
 	okbtn = $('#okbtn').hide(),
-	frmelems = $([]).add(login).add(pw).add(logname),
-
-	pbar = $("#progressbar")
-		.append($('<div>Working...</div>').addClass('progress-label'))
-		.progressbar({
-			value: false,
-		})
-		.hide();
+	frmelems = $([]).add(login).add(pw).add(logname);
 
 	lform
 		.submit(function(e) {
 			e.preventDefault();
 
+			$('.ui-loader').show();
 			frmelems.attr('disabled', 'disabled');
-			pbar.show(500);
 
 			$.get('u',
 				{
@@ -29,13 +21,14 @@ $(document).ready(function () {
 					'u': logname.val(),
 					'p': pw.val(),
 				}, function (data) {
-					pbar.hide(500);
+					$('.ui-loader').hide();
 					result.text(data.msg);
 					if (!data.result) {
 						frmelems.removeAttr('disabled');
 					} else {
 						// hide now-inaccurate data
-						$('#loggedinas').hide();
+						lform.hide();
+						okbtn.show();
 					}
 				});
 

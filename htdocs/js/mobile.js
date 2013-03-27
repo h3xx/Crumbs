@@ -1,6 +1,17 @@
 $(document).ready(function () {
-	$('#mobpage')
+
+	$('#mobsite')
 	.append(
-		$('<div></div>').loginpanel()
+		//window.loginpage.widget(),
+		$('<div data-role="page"></div>')
+		.append(
+			$('<div data-role="header">Header1</div>'),
+			$('<a href="/login?m=" data-rel="dialog">Login</a>')
+		).show()
+		/*
+		$('<div data-role="page"></div>')
+		.append(
+			$('<div data-role="header">Header</div>')
+		)*/
 	);
 });

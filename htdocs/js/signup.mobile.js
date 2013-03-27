@@ -1,33 +1,28 @@
 $(document).ready(function () {
 	var
 	sform = $('#signupform'),
-	usub = $('#usub').button(),
+	usub = $('#usub'),
 	name = $('#name'),
 	email = $('#email'),
 	pass = $('#pass'),
 	passv = $('#passv'),
 
 	result = $('#result'),
-	okbtn = $('#okbtn').hide(),
+	okbtn = $('#okbtn'),
 
 	frmelems = $([]).add(name).add(email).add(pass).add(passv),
-	passelems = $([]).add(pass).add(passv),
-
-	pbar = $("#progressbar")
-		.append($('<div>Working...</div>').addClass('progress-label'))
-		.progressbar({
-			value: false,
-		})
-		.hide();
+	passelems = $([]).add(pass).add(passv);
 
 	passelems
 		.change(function (e) {
 			if (pass.val() && passv.val()) {
 				if (pass.val() != passv.val()) {
+					result.text('Passwords do not match.');
 					passelems
 						//.removeClass('ui-state-highlight')
 						.addClass('ui-state-error');
 				} else {
+					result.text('');
 					passelems
 						//.addClass('ui-state-highlight')
 						.removeClass('ui-state-error');
@@ -71,15 +66,12 @@ $(document).ready(function () {
 			usub.attr('disabled', 'disabled')
 			.addClass('ui-button-disabled ui-state-disabled');
 
-			pbar.show(500);
-
 			$.get('u', {
 				'a': 'signup',
 				'u': name.val(),
 				'p': pass.val(),
 				'e': email.val(),
 			}, function (data) {
-				pbar.hide(500);
 				result.text(data.msg);
 				if (!data.result) {
 					frmelems.removeAttr('disabled');
@@ -87,7 +79,7 @@ $(document).ready(function () {
 					usub.removeAttr('disabled')
 					.removeClass('ui-button-disabled ui-state-disabled');
 				} else {
-					frmelems.val(null).removeClass('ui-state-error');
+					sform.hide(500);
 				}
 			});
 
