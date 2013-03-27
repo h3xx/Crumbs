@@ -18,7 +18,7 @@ sub vfy_url {
 sub rst_url {
 	my ($cgi, $un, $rst) = @_;
 
-	sprintf '%s://%s/u?a=pwreset?u=%s;r=%s',
+	sprintf '%s://%s/pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
 		$ENV{'HTTP_HOST'},
 		$cgi->url_encode($un),
