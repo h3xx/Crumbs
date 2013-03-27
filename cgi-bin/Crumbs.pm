@@ -45,11 +45,8 @@ sub _initsession {
 	my $self = shift;
 
 	# let's hope this is portable
-	$self->{'session'} = CGI::Session->load(undef, $self->{'cgi'}, undef)
+	$self->{'session'} = CGI::Session->new(undef, $self->{'cgi'}, undef)
 		or die CGI::Session->errstr;
-
-	$self->{'session'}->new
-		unless defined $self->{'session'}->id;
 }
 
 sub _destroysession {
