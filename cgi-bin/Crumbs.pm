@@ -49,13 +49,13 @@ sub _initsession {
 		or die CGI::Session->errstr;
 }
 
-sub _destroysession {
-	my $self = shift;
-
-	# save session
-	$self->{'session'}->save_param
-		if defined $self->{'session'};
-}
+#sub _destroysession {
+#	my $self = shift;
+#
+#	# save session
+#	$self->{'session'}->save_param
+#		if defined $self->{'session'};
+#}
 
 sub sessvar {
 	my ($self, $var, $val) = @_;
@@ -128,11 +128,11 @@ sub header {
 	);
 }
 
-sub DESTROY {
-	my $self = shift;
-
-	$self->_destroysession;
-}
+#sub DESTROY {
+#	my $self = shift;
+#
+#	$self->_destroysession;
+#}
 
 =head1 AUTHOR
 

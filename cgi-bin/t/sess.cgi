@@ -48,6 +48,4 @@ print '<pre>';
 print "id:",$session->id,"\n";
 {use Data::Dumper; print Data::Dumper->Dump([$session]);}
 
-$session->save_param;
-
 $dbh->commit;
