@@ -14,7 +14,7 @@
 
 -- DROP FUNCTION 
 
-CREATE OR REPLACE FUNCTION crumb_rank(_when timestamp without timezone, _where point, _pos point)
+CREATE OR REPLACE FUNCTION crumb_rank(_when timestamp without time zone, _where point, _pos point)
   RETURNS integer AS
 $BODY$
 

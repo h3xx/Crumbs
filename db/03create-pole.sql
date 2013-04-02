@@ -18,8 +18,8 @@ CREATE TABLE pole
   CONSTRAINT pole_pkey PRIMARY KEY (pole_id),
   CONSTRAINT pole_owner_fkey FOREIGN KEY (owner)
       REFERENCES "user" (user_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-  CONSTRAINT pole_post_distlimit_check CHECK (post_distlimit > 0::double precision)
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT pole_post_distlimit_check CHECK (post_distlimit > 0::double precision),
   CONSTRAINT pole_read_distlimit_check CHECK (read_distlimit > 0::double precision)
 )
 WITH (
