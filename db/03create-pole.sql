@@ -7,7 +7,8 @@ CREATE TABLE pole
 (
   pole_id character varying(10) NOT NULL DEFAULT random_string(10),
   pole_name character varying(128), -- The name of the place. E.g. "Joe's Diner".
-  pos point NOT NULL, -- Where the sticking pole is located.
+  lat real NOT NULL, -- Where the sticking pole is located (latitude).
+  lon real NOT NULL, -- Where the sticking pole is located (longitude).
   locked_post boolean NOT NULL DEFAULT false, -- Whether posting to this sticking pole is locked to users in the area.
   locked_read boolean NOT NULL DEFAULT false, -- Whether reading posts at this sticking pole is locked to users in the area.
   post_distlimit double precision NOT NULL DEFAULT 50, -- How far away users can post to this sticking pole.
@@ -36,3 +37,23 @@ COMMENT ON COLUMN pole.read_distlimit IS 'How far away users can read from this 
 COMMENT ON COLUMN pole.owner IS 'Who owns this sticking pole.';
 COMMENT ON COLUMN pole.private_post IS 'Whether posting crumbs to this sticking pole is limited to a set of users.';
 COMMENT ON COLUMN pole.private_read IS 'Whether reading crumbs from this sticking pole is limited to a set of users.';
+COMMENT ON COLUMN pole.lat IS 'Where the sticking pole is located (latitude).';
+COMMENT ON COLUMN pole.lon IS 'Where the sticking pole is located (longitude).';
+
+-- Index: pole_lat_idx
+
+-- DROP INDEX pole_lat_idx;
+
+CREATE INDEX pole_lat_idx
+  ON pole
+  USING btree
+  (lat);
+
+-- Index: pole_lon_idx
+
+-- DROP INDEX pole_lon_idx;
+
+CREATE INDEX pole_lon_idx
+  ON pole
+  USING btree
+  (lon);

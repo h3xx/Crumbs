@@ -1,7 +1,6 @@
 -- Function: crumb_post(text, text)
 --
 -- Database engine: PostgreSQL 9.2
--- Dependencies: `earthdistance' extension
 --
 -- Returns the crumb_id, or null if something went wrong.
 --
@@ -10,7 +9,7 @@
 
 -- DROP FUNCTION crumb_post(text, text);
 
-CREATE OR REPLACE FUNCTION crumb_post(_locked_read boolean, _posted_time timestamp without time zone, _pole_id character varying, _owner integer, _message character varying, _reply_to character varying, _pos point)
+CREATE OR REPLACE FUNCTION crumb_post(_locked_read boolean, _posted_time timestamp without time zone, _pole_id character varying, _owner integer, _message character varying, _reply_to character varying, _lat real, _lon real)
   RETURNS character varying AS
 $BODY$
 
@@ -38,7 +37,7 @@ begin
 
 	-- make sure the pole exists
 	if _pole_id is not null then
-		if not crumb_can_pole_post(_owner, _pole_id, _pos) then
+		if not crumb_can_pole_post(_owner, _pole_id, _lat, _lon) then
 			--raise exception 'Cannot post on that pole.';
 			return null;
 		end if;
@@ -46,7 +45,7 @@ begin
 
 	-- if it's a reply, make sure the crumb they can reply to it
 	if _reply_to is not null then
-		if not crumb_can_reply(_owner, _reply_to, _pos) then
+		if not crumb_can_reply(_owner, _reply_to, _lat, _lon) then
 			--raise exception 'Cannot reply to that crumb.';
 			return null;
 		end if;
@@ -58,8 +57,8 @@ begin
 		insert
 			into "crumb"
 			into _crumb_id
-			("locked_read", "posted_time", "pole_id", "owner", "message", "reply_to", "pos")
-			values(_locked_read, _posted_time, _pole_id, _owner, _message, _reply_to, _pos)
+			("locked_read", "posted_time", "pole_id", "owner", "message", "reply_to", "lat", "lon")
+			values(_locked_read, _posted_time, _pole_id, _owner, _message, _reply_to, _lat, _lon)
 			returning "crumb_id";
 		exception
 		when others then

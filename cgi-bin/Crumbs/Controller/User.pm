@@ -184,6 +184,29 @@ sub logout {
 	};
 }
 
+sub block {
+	my ($self, $block) = @_;
+
+	my $uid = $self->{'session'}->param('user_id');
+
+	return {
+		'result'=> 0,
+		'msg'	=> 'You are not logged in.',
+	} unless defined $uid;
+
+	unless ($self->{'model'}->user->block($uid, $block)) {
+		return {
+			'result'=> 0,
+			'msg'	=> 'Failed to block user.',
+		};
+	}
+
+	return {
+		'result'=> 1,
+		'msg'	=> 'Success.',
+	};
+}
+
 =head1 AUTHOR
 
 Dan Church S<E<lt>h3xx@gmx.comE<gt>>

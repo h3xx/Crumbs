@@ -76,6 +76,18 @@ sub setpw {
 	($q->fetchrow_array)[0]
 }
 
+sub block {
+	my ($self, $uid, $blk) = @_;
+
+	return 0 unless defined $uid and defined $blk;
+
+	my $q = $self->{'db'}->prepare('select user_block(?,?)');
+
+	return 0 unless $q->execute($uid, $blk);
+
+	($q->fetchrow_array)[0]
+}
+
 # --- QUERIES ---
 
 sub resolve_username_from_email {

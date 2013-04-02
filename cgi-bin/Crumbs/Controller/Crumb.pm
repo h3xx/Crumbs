@@ -61,6 +61,16 @@ sub put {
 		};
 	}
 
+	# caveat re: earthdistance `point' type:
+	#
+	# Points are taken as (longitude, latitude) and not vice versa because
+	# longitude is closer to the intuitive idea of x-axis and latitude to
+	# y-axis.
+	#
+	# Source: http://www.postgresql.org/docs/current/static/earthdistance.html
+	#
+	# However, the ll_to_earth(float8, float8) function takes (latitude, longitude)
+
 	return {
 		'result'=> 1,
 		'pos'	=> $pos,

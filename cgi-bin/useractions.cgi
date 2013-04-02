@@ -46,6 +46,8 @@ unless (defined $a) {
 	$r = $c->controller->user->setpw($cgi->param('u'), $cgi->param('r'), $cgi->param('p'));
 } elsif ($a eq 'verify') {
 	$r = $c->controller->user->verify($cgi->param('u'), $cgi->param('v'));
+} elsif ($a eq 'block') {
+	$r = $c->controller->user->verify($cgi->param('b'));
 } else {
 	$r = {
 		'result'=> 0,

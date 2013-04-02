@@ -1,5 +1,4 @@
 -- Table: crumb
--- Dependencies: `earthdistance' extension
 
 -- DROP TABLE crumb;
 
@@ -12,7 +11,8 @@ CREATE TABLE crumb
   owner integer NOT NULL, -- Who owns this crumb.
   message character varying(1024), -- The crumb's payload.
   reply_to character varying(15), -- The crumb this is a reply to (if any).
-  pos point NOT NULL, -- Where the crumb is located.
+  lat real NOT NULL, -- Where the crumb is located (latitude).
+  lon real NOT NULL, -- Where the crumb is located (longitude).
   active boolean NOT NULL DEFAULT true, -- Whether this crumb hasn't been deleted yet.
   CONSTRAINT crumb_pkey PRIMARY KEY (crumb_id),
   CONSTRAINT crumb_owner_fkey FOREIGN KEY (owner)
@@ -36,5 +36,25 @@ COMMENT ON COLUMN crumb.pole_id IS 'What sticking pole, if any, the crumb was po
 COMMENT ON COLUMN crumb.owner IS 'Who owns this crumb.';
 COMMENT ON COLUMN crumb.message IS 'The crumb''s payload.';
 COMMENT ON COLUMN crumb.reply_to IS 'The crumb this is a reply to (if any).';
-COMMENT ON COLUMN crumb.pos IS 'Where the crumb is located.';
 COMMENT ON COLUMN crumb.active IS 'Whether this crumb hasn''t been deleted yet.';
+COMMENT ON COLUMN crumb.lat IS 'Where the crumb is located (latitude).';
+COMMENT ON COLUMN crumb.lon IS 'Where the crumb is located (longitude).';
+
+-- Index: crumb_lat_idx
+
+-- DROP INDEX crumb_lat_idx;
+
+CREATE INDEX crumb_lat_idx
+  ON crumb
+  USING btree
+  (lat);
+
+-- Index: crumb_lon_idx
+
+-- DROP INDEX crumb_lon_idx;
+
+CREATE INDEX crumb_lon_idx
+  ON crumb
+  USING btree
+  (lon);
+
