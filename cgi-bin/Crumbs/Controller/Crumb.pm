@@ -27,6 +27,8 @@ sub get {
 		};
 	}
 
+	# FIXME
+
 	return {
 		'result'=> 1,
 		'pos'	=> $pos,
@@ -37,6 +39,7 @@ sub get {
 # query sticking poles in the area
 sub pole {
 	my ($self, $lat, $lon, $limit) = @_;
+	# FIXME
 }
 
 # post a crumb
@@ -65,6 +68,7 @@ sub put {
 	};
 }
 
+# delete a crumb
 sub del {
 	my ($self, $cid) = @_;
 	my $uid = $self->{'session'}->param('user_id');
@@ -83,7 +87,30 @@ sub del {
 
 	return {
 		'result'=> 1,
-		'msg'	=> 'Successfully deleted crumb.',
+		'msg'	=> 'Success.',
+	};
+}
+
+# mark read
+sub read {
+	my ($self, $cid) = @_;
+	my $uid = $self->{'session'}->param('user_id');
+
+	return {
+		'result'=> 0,
+		'msg'	=> 'You are not logged in.',
+	} unless defined $uid;
+
+	unless ($self->{'model'}->crumb->mark_read($uid, $cid)) {
+		return {
+			'result'=> 0,
+			'msg'	=> 'Failed to mark crumb as read.',
+		};
+	}
+
+	return {
+		'result'=> 1,
+		'msg'	=> 'Success.',
 	};
 }
 

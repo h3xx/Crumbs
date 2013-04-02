@@ -36,6 +36,9 @@ unless (defined $a) {
 } elsif ($a eq 'del') {
 	# crumb_id
 	$r = $c->controller->crumb->del($cgi->param('cid'));
+} elsif ($a eq 'read') {
+	# crumb_id
+	$r = $c->controller->crumb->read($cgi->param('cid'));
 } else {
 	$r = {
 		'result'=> 0,

@@ -35,6 +35,18 @@ sub delete_crumb {
 	($q->fetchrow_array)[0]
 }
 
+sub mark_read {
+	my ($self, $uid, $crumb_id) = @_;
+
+	return 0 unless defined $uid and defined $crumb_id;
+
+	my $q = $self->{'db'}->prepare('select crumb_mark_read(?,?)');
+
+	return 0 unless $q->execute($uid, $crumb_id);
+
+	($q->fetchrow_array)[0]
+}
+
 =head1 AUTHOR
 
 Dan Church S<E<lt>h3xx@gmx.comE<gt>>
