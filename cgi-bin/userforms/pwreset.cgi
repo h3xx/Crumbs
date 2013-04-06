@@ -49,7 +49,7 @@ push @styles, (defined $cgi->param('m') ? @styles_mob : @styles_nonmob);
 print q%<!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Password Reset</title>%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;

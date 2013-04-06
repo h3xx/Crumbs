@@ -36,7 +36,7 @@ print q%<!DOCTYPE html>
 <html>
 <head>
 <title>Crumbs</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">%;
+<meta name="viewport" content="width=device-width, initial-scale=1" />%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
 printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
