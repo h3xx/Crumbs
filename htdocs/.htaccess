@@ -7,3 +7,6 @@ RewriteRule ^(pwreset|login|verify|signup|reset|logout)$ /cgi-bin/userforms/$1.c
 RewriteRule ^c$ /cgi-bin/crumbactions.cgi
 
 RewriteRule ^m$ /cgi-bin/index.mobile.cgi
+
+ErrorDocument 500 /pages/500.html
+ErrorDocument 404 /pages/500.html
