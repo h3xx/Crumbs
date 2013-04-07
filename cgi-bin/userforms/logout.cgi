@@ -34,13 +34,13 @@ my @styles_always = qw[
 ];
 
 my @styles_nonmob = qw[
-	css/userform.css
 	css/jquery-ui-1.10.2.min.css
+	css/userform.css
 ];
 
 my @styles_mob = qw[
-	css/userform.mobile.css
 	css/jquery.mobile-1.3.0.min.css
+	css/userform.mobile.css
 ];
 
 my @scripts = @scripts_always;
@@ -49,26 +49,26 @@ push @scripts, (defined $cgi->param('m') ? @scripts_mob : @scripts_nonmob);
 my @styles = @styles_always;
 push @styles, (defined $cgi->param('m') ? @styles_mob : @styles_nonmob);
 
-
 print q%<!DOCTYPE html>
 <html>
 <head>
+<title>Logout</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Logout</title>%;
+%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
 printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
 
 print q%</head>
-<body>%;
+<body>
+%;
 
 # XXX : HACK! - makes this work as a dialog box
 print '<script type="text/javascript" src="js/logout.mobile.js"></script>'
 	if defined $cgi->param('m');
 
 print q%<div data-role="header"><h1>Logout</h1></div>
-<div data-role="content">
-<div id="progressbar"></div>
+<div data-role="content"><div id="progressbar"></div>
 <div id="result"></div>
 <div id="okbtn"><a href="/m" data-role="button" data-theme="b">OK</a></div>
 <form id="logoutform" action="/u" method="get">
@@ -83,13 +83,12 @@ printf '<div id="loggedinas">%s</div>',
 
 print q%<input id="logout" type="submit" value="Logout" data-role="back" data-theme="b" data-inline="true" />
 <input id="cancel" type="button" name="cancel" value="Cancel" data-rel="back" data-theme="c" data-inline="true" onclick="history.back();" />
-</form>
-</div>
-<div id="linkbar" data-role="footer">%;
+</form></div>
+<div data-role="footer"><div id="linkbar">%;
 
-printf '<div id="gotologin"><a href="login%s" id="loginlink" data-role="button" data-inline="true">Log in again</a></div>',
+printf '<span id="gotologin"><a href="login%s" id="loginlink" data-role="button" data-inline="true">Log in again</a></span>',
 	(defined $cgi->param('m') ? '?m=' : '');
 
-print q%</div>
+print q%</div></div>
 </body>
 </html>%;

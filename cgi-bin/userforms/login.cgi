@@ -34,13 +34,13 @@ my @styles_always = qw[
 ];
 
 my @styles_nonmob = qw[
-	css/userform.css
 	css/jquery-ui-1.10.2.min.css
+	css/userform.css
 ];
 
 my @styles_mob = qw[
-	css/userform.mobile.css
 	css/jquery.mobile-1.3.0.min.css
+	css/userform.mobile.css
 ];
 
 my @scripts = @scripts_always;
@@ -53,7 +53,8 @@ print q%<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login</title>%;
+<title>Login</title>
+%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
 printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
@@ -90,12 +91,12 @@ print q%<input id="loginsub" type="submit" value="Login" data-rel="back" data-th
 <input id="cancel" type="button" name="cancel" value="Cancel" data-rel="back" data-theme="c" data-inline="true" onclick="history.back();" />
 </form>
 </div>
-<div id="linkbar" data-role="footer">%;
+<div data-role="footer"><div id="linkbar">%;
 
 printf '<span id="gotoreset"><a href="reset%s" id="resetlink" data-role="button" data-inline="true">Reset your password</a></span> &middot;'.
 	'<span id="gotosignup"><a href="signup%s" id="signuplink" data-role="button" data-inline="true">Sign up</a></span>',
 	(defined $cgi->param('m') ? '?m=' : '') x 2;
 
-print q%</div>
+print q%</div></div>
 </body>
 </html>%;

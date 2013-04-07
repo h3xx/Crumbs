@@ -31,13 +31,13 @@ my @styles_always = qw[
 ];
 
 my @styles_nonmob = qw[
-	css/userform.css
 	css/jquery-ui-1.10.2.min.css
+	css/userform.css
 ];
 
 my @styles_mob = qw[
-	css/userform.mobile.css
 	css/jquery.mobile-1.3.0.min.css
+	css/userform.mobile.css
 ];
 
 my @scripts = @scripts_always;
@@ -49,8 +49,9 @@ push @styles, (defined $cgi->param('m') ? @styles_mob : @styles_nonmob);
 print q%<!DOCTYPE html>
 <html>
 <head>
+<title>Password Reset</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Password Reset</title>%;
+%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
 printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
@@ -58,26 +59,24 @@ printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
 print q%</head>
 <body>
 <div data-role="header"><h1>Password Reset</h1></div>
-<div data-role="content">
-<div id="progressbar"></div>
+<div data-role="content"><div id="progressbar"></div>
 <div id="result"></div>
 <div id="okbtn"><a href="/m" data-role="button" data-theme="b">OK</a></div>
 <form id="pwresetform" action="/u" method="get">
 <input type="hidden" name="a" value="setpw" />%;
 
-printf '<input id="u" type="hidden" name="u" value="%s" />',
-	$cgi->escapeHTML($cgi->param('u') || '');
-printf '<input id="r" type="hidden" name="r" value="%s" />',
+printf '<input id="u" type="hidden" name="u" value="%s" />'.
+	'<input id="r" type="hidden" name="r" value="%s" />',
+	$cgi->escapeHTML($cgi->param('u') || ''),
 	$cgi->escapeHTML($cgi->param('r') || '');
 
 print q%<input id="newpw" type="password" name="p" placeholder="Enter a new password" />
 <input id="newpwv" type="password" name="pv" placeholder="Verify password" />
 <input id="pwsub" type="submit" value="Change" data-rel="back" data-theme="b" data-inline="true" />
 <input id="cancel" type="button" name="cancel" value="Cancel" data-rel="back" data-theme="c" data-inline="true" />
-</form>
-</div>
-<div id="linkbar" data-role="footer">
+</form></div>
+<div data-role="footer"><div id="linkbar">
 <a href="#" onclick="history.back();" id="gobacklink" data-role="button" data-inline="true">Go back</a>
-</div>
+</div></div>
 </body>
 </html>%;

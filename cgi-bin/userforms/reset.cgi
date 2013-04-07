@@ -30,13 +30,13 @@ my @styles_always = qw[
 ];
 
 my @styles_nonmob = qw[
-	css/userform.css
 	css/jquery-ui-1.10.2.min.css
+	css/userform.css
 ];
 
 my @styles_mob = qw[
-	css/userform.mobile.css
 	css/jquery.mobile-1.3.0.min.css
+	css/userform.mobile.css
 ];
 
 my @scripts = @scripts_always;
@@ -48,22 +48,23 @@ push @styles, (defined $cgi->param('m') ? @styles_mob : @styles_nonmob);
 print q%<!DOCTYPE html>
 <html>
 <head>
+<title>Password Reset Request</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Password Reset Request</title>%;
+%;
 
 printf '<link rel="stylesheet" type="text/css" href="%s" />', $_ for @styles;
 printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
 
 print q%</head>
-<body>%;
+<body>
+%;
 
 # XXX : HACK! - makes this work as a dialog box
 print '<script type="text/javascript" src="js/reset.mobile.js"></script>'
 	if defined $cgi->param('m');
 
 print q%<div data-role="header"><h1>Password Reset Request</h1></div>
-<div data-role="content">
-<div id="progressbar"></div>
+<div data-role="content"><div id="progressbar"></div>
 <div id="result"></div>
 <div id="okbtn"><a href="/m" data-role="button" data-theme="b">OK</a></div>
 <form id="resetform" action="/u" method="get">
@@ -74,7 +75,6 @@ printf '<input id="email" type="text" name="e" placeholder="Enter your email add
 
 print q%<input id="emsub" type="submit" value="Submit" data-rel="back" data-theme="b" data-inline="true" />
 <input id="cancel" type="button" name="cancel" value="Cancel" data-rel="back" data-theme="c" data-inline="true" onclick="history.back();" />
-</form>
-</div>
+</form></div>
 </body>
 </html>%;
