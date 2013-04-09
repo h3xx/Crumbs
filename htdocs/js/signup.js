@@ -2,6 +2,7 @@ $(document).ready(function () {
 	var
 	sform = $('#signupform'),
 	usub = $('#usub').button(),
+	cancel = $('#cancel').button(),
 	name = $('#name'),
 	email = $('#email'),
 	pass = $('#pass'),
@@ -71,6 +72,7 @@ $(document).ready(function () {
 			usub.attr('disabled', 'disabled')
 			.addClass('ui-button-disabled ui-state-disabled');
 
+			result.text('');
 			pbar.show(500);
 
 			$.get('u', {
