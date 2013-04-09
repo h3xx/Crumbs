@@ -17,6 +17,7 @@ $(document).ready(function () {
 		result.text('No data for password reset (did you click the link in your email?)');
 	}
 
+/*
 	frmelems
 		.change(function (e) {
 			var self = $(this);
@@ -26,19 +27,17 @@ $(document).ready(function () {
 				self.removeClass('ui-state-error');
 			}
 		});
-
+*/
 	passelems
 		.change(function (e) {
 			if (newpw.val() && newpwv.val()) {
 				if (newpw.val() != newpwv.val()) {
 					result.text('Passwords do not match.');
 					passelems
-						//.removeClass('ui-state-highlight')
 						.addClass('ui-state-error');
 				} else {
 					result.text('');
 					passelems
-						//.addClass('ui-state-highlight')
 						.removeClass('ui-state-error');
 				}
 			}
@@ -57,12 +56,18 @@ $(document).ready(function () {
 				.removeClass('ui-state-error');
 			pwsub.addClass('ui-button-disabled ui-state-disabled');
 
+			result.text('');
+			$.mobile.loading('show', {
+				text: 'Working...',
+			});
+
 			$.get('u', {
 				'a': 'setpw',
 				'u': u.val(),
 				'r': r.val(),
 				'p': newpw.val(),
 			}, function (data) {
+				$.mobile.loading('hide');
 				newpw.val(null);
 				newpwv.val(null);
 				result.text(data.msg);

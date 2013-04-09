@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
 	var
 	loform = $('#logoutform'),
 	logout = $('#logout'),
@@ -10,9 +9,15 @@ $(document).ready(function () {
 		.submit(function(e) {
 			e.preventDefault();
 
+			result.text('');
+			$.mobile.loading('show', {
+				text: 'Working...',
+			});
+
 			$.get('u', {
 				'a': 'logout',
 			}, function (data) {
+				$.mobile.loading('hide');
 				result.text(data.msg);
 				if (data.result) {
 					// hide now-inaccurate data

@@ -8,7 +8,7 @@ $(document).ready(function () {
 	passv = $('#passv'),
 
 	result = $('#result'),
-	okbtn = $('#okbtn'),
+	okbtn = $('#okbtn').hide(),
 
 	frmelems = $([]).add(name).add(email).add(pass).add(passv),
 	passelems = $([]).add(pass).add(passv);
@@ -66,12 +66,18 @@ $(document).ready(function () {
 			usub.attr('disabled', 'disabled')
 			.addClass('ui-button-disabled ui-state-disabled');
 
+			result.text('');
+			$.mobile.loading('show', {
+				text: 'Working...',
+			});
+
 			$.get('u', {
 				'a': 'signup',
 				'u': name.val(),
 				'p': pass.val(),
 				'e': email.val(),
 			}, function (data) {
+				$.mobile.loading('hide');
 				result.text(data.msg);
 				if (!data.result) {
 					frmelems.removeAttr('disabled');
@@ -80,6 +86,7 @@ $(document).ready(function () {
 					.removeClass('ui-button-disabled ui-state-disabled');
 				} else {
 					sform.hide(500);
+					okbtn.show();
 				}
 			});
 

@@ -12,8 +12,11 @@ $(document).ready(function () {
 		.submit(function(e) {
 			e.preventDefault();
 
-			$('.ui-loader').show();
 			frmelems.attr('disabled', 'disabled');
+			result.text('');
+			$.mobile.loading('show', {
+				text: 'Working...',
+			});
 
 			$.get('u',
 				{
@@ -21,7 +24,7 @@ $(document).ready(function () {
 					'u': logname.val(),
 					'p': pw.val(),
 				}, function (data) {
-					$('.ui-loader').hide();
+					$.mobile.loading('hide');
 					result.text(data.msg);
 					if (!data.result) {
 						frmelems.removeAttr('disabled');
