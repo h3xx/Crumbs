@@ -150,8 +150,12 @@ sub _pos {
 			return undef;
 		}
 
-		use Geo::IP;
-		my $gi = Geo::IP->open($self->{'parent'}->cfgvar('geoip', 'database'), GEOIP_STANDARD);
+		my $gi;
+		# sidestep compilation errors if Geo::IP is not installed
+		eval q%
+			use Geo::IP;
+			$gi = Geo::IP->open($self->{'parent'}->cfgvar('geoip', 'database'), GEOIP_STANDARD);
+		%;
 		return undef unless defined $gi;
 
 		my $record = $gi->record_by_addr($cli_addr);

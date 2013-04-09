@@ -7,9 +7,9 @@ our $VERSION = '0.01';
 sub vfy_url {
 	my ($cgi, $un, $vfy) = @_;
 
-	sprintf '%s://%s/u?a=verify?u=%s;v=%s',
+	sprintf '%s://%s/u?a=verify;u=%s;v=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
-		$ENV{'HTTP_HOST'},
+		($ENV{'HTTP_HOST'} || 'localhost'),
 		$cgi->url_encode($un),
 		$cgi->url_encode($vfy);
 
@@ -20,11 +20,18 @@ sub rst_url {
 
 	sprintf '%s://%s/pwreset?u=%s;r=%s',
 		$cgi ? ($cgi->https ? 'https' : 'http') : 'poop',
-		$ENV{'HTTP_HOST'},
+		($ENV{'HTTP_HOST'} || 'localhost'),
 		$cgi->url_encode($un),
 		$cgi->url_encode($rst);
 	
 }
+
+=head2 is_valid_email($email)
+
+Checks whether an email address is in a valid format. Only handles NAME@DOMAIN
+style email addresses, and not `First Last <NAME@DOMAIN>' style.
+
+=cut
 
 sub is_valid_email {
 	my $em = shift;
@@ -33,6 +40,14 @@ sub is_valid_email {
 	# modified to be PCRE
 	$em =~ m/^[\w._%+-]+@[\w.-]+\.[a-z]{2,4}$/i
 }
+
+=head2 mail($to, $from, $subj, $body, [\%headers])
+
+Mails a message via M<Mail::Sendmail>. Designed to mimic PHP's mail() function.
+
+\%headers is a list of overrides for the normal email headers.
+
+=cut
 
 sub mail {
 	my ($to, $from, $subj, $body, $headers) = @_;
