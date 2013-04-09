@@ -20,4 +20,6 @@
 
 * `[CGI::Simple](http://search.cpan.org/~andya/CGI-Simple/)`
 
-* `[Geo::IP](http://search.cpan.org/~borisz/Geo-IP/)`
+* `[Mail::Sendmail](http://search.cpan.org/~mivkovic/Mail-Sendmail/)`
+
+* `[Geo::IP](http://search.cpan.org/~borisz/Geo-IP/)` (optional)
