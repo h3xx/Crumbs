@@ -16,7 +16,7 @@ sub content {
 	if ($self->{'is_mobile'}) {
 		@scripts = (@{$self->{'scripts_mob'}});
 		@styles = (@{$self->{'styles_mob'}}, 'css/userform.mobile.css');
-		@scripts_body = ('css/signup.mobile.js');
+		@scripts_body = ('js/signup.mobile.js');
 	} else {
 		@scripts = (@{$self->{'scripts_nomob'}}, 'js/signup.js');
 		@styles = (@{$self->{'styles_nomob'}}, 'css/userform.css');
