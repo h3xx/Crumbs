@@ -5,19 +5,22 @@ use strict;
 use lib '..', '../third_party';
 
 use CGI::Simple;
+use CGI::Session;
 
 my $cgi = CGI::Simple->new;
+my $session = CGI::Session->new(undef, $cgi, undef);
 
 print $cgi->header(
 	'-type'		=> 'text/html',
 	'-charset'	=> 'utf8',
+	'-cookie'	=> $session->cookie,
 );
 
 print q%<!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Verify Your Email</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="css/jquery-ui-1.10.2.min.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/jq/jquery-ui-1.10.2.min.js"></script>
@@ -26,14 +29,16 @@ print q%<!DOCTYPE html>
 </head>
 <body>
 <h1>Verify Your Email</h1>
-<form>%;
+<form id="verifyform" action="/u" method="get">
+<input type="hidden" name="a" value="verify" />%.
 
-printf '<input id="u" type="hidden" name="u" value="%s" />',
-	$cgi->escapeHTML($cgi->param('u') || '');
-printf '<input id="v" type="hidden" name="v" value="%s" />',
-	$cgi->escapeHTML($cgi->param('v') || '');
+(sprintf '<input id="u" type="hidden" name="u" value="%s" />'.
+	'<input id="v" type="hidden" name="v" value="%s" />',
+	$cgi->escapeHTML($cgi->param('u') || ''),
+	$cgi->escapeHTML($cgi->param('v') || '')
+).
 
-print q%</form>
+q%</form>
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>
