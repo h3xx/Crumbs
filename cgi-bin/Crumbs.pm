@@ -101,6 +101,20 @@ sub controller {
 	);
 }
 
+sub view {
+	my $self = shift;
+	use Crumbs::View;
+
+	$self->{'view'} || (
+		$self->{'view'} = Crumbs::View->new(
+			'parent'=> $self,
+			'cgi'	=> $self->{'cgi'},
+			'model'	=> $self->model,
+			'session'=> $self->{'session'},
+		)
+	);
+}
+
 sub cfg {
 	my $self = shift;
 
