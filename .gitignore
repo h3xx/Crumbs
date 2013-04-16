@@ -4,3 +4,6 @@
 
 # Dia files
 *.dia.autosave
+
+# compiled Java
+*.class
