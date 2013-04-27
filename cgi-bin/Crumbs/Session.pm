@@ -16,8 +16,8 @@ sub new {
 	my ($cgi, $db, $rcfile) = @{{@_}}{qw/ cgi db rcfile /};
 
 	if (!defined $db and defined $rcfile) {
-		use Config::General;
-		use Crumbs::Database;
+		require Config::General;
+		require Crumbs::Database;
 		my %cf = Config::General->new($rcfile)->getall;
 		$db = Crumbs::Database->new(
 			'cfg'	=> \%cf,

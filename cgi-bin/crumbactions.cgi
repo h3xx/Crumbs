@@ -5,8 +5,8 @@ use strict;
 use lib '.', 'third_party';
 
 use CGI::Carp 'fatalsToBrowser'; # XXX : turn off when in production
-use CGI::Simple;
-use Crumbs;
+require CGI::Simple;
+require Crumbs;
 use JSON::PP	qw/ encode_json /;
 
 my $cgi = CGI::Simple->new;

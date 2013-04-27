@@ -2,9 +2,9 @@
 use strict;
 
 use CGI::Carp 'fatalsToBrowser';
-use CGI::Simple;
-use CGI::Session;
-use DBI;
+require CGI::Simple;
+require CGI::Session;
+require DBI;
 
 use constant DBFILE	=> '/tmp/cgisess.db';
 
@@ -46,6 +46,6 @@ if (defined $cgi->param('delete')) {
 
 print '<pre>';
 print "id:",$session->id,"\n";
-{use Data::Dumper; print Data::Dumper->Dump([$session]);}
+{require Data::Dumper; print Data::Dumper->Dump([$session]);}
 
 $dbh->commit;

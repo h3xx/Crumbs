@@ -4,8 +4,8 @@ use strict;
 use lib '..', '../third_party';
 
 use CGI::Carp 'fatalsToBrowser';
-use CGI::Simple;
-use Crumbs::Session;
+require CGI::Simple;
+require Crumbs::Session;
 use JSON::PP	qw/ encode_json /;
 use Date::Parse	qw/ strptime /;
 

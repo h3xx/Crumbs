@@ -18,7 +18,7 @@ sub new {
 
 sub crumb {
 	my $self = shift;
-	use Crumbs::View::Crumb;
+	require Crumbs::View::Crumb;
 
 	$self->{'crumb'} || (
 		$self->{'crumb'} = Crumbs::View::Crumb->new(

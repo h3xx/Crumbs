@@ -4,7 +4,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Config::General		qw//;
+require Config::General;
 
 sub new {
 	my $class = shift;
@@ -55,7 +55,7 @@ sub sesscookie {
 
 sub model {
 	my $self = shift;
-	use Crumbs::Model;
+	require Crumbs::Model;
 
 	$self->{'model'} || (
 		$self->{'model'} = Crumbs::Model->new(
@@ -69,7 +69,7 @@ sub model {
 
 sub controller {
 	my $self = shift;
-	use Crumbs::Controller;
+	require Crumbs::Controller;
 
 	$self->{'controller'} || (
 		$self->{'controller'} = Crumbs::Controller->new(
@@ -83,7 +83,7 @@ sub controller {
 
 sub view {
 	my $self = shift;
-	use Crumbs::View;
+	require Crumbs::View;
 
 	$self->{'view'} || (
 		$self->{'view'} = Crumbs::View->new(
@@ -112,7 +112,7 @@ sub cfg {
 
 sub session {
 	my $self = shift;
-	use Crumbs::Session;
+	require Crumbs::Session;
 
 	$self->{'session'} || (
 		$self->{'session'} = Crumbs::Session->new(
@@ -124,7 +124,7 @@ sub session {
 
 sub db {
 	my $self = shift;
-	use Crumbs::Database;
+	require Crumbs::Database;
 
 	$self->{'db'} || (
 		$self->{'db'} = Crumbs::Database->new(

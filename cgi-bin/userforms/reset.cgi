@@ -4,9 +4,9 @@ use strict;
 
 use lib '..', '../third_party';
 
-use CGI::Simple;
-use Crumbs::Session;
-use Crumbs::View::UserForms::Reset;
+require CGI::Simple;
+require Crumbs::Session;
+require Crumbs::View::UserForms::Reset;
 
 my $cgi = CGI::Simple->new;
 my $session = Crumbs::Session->new(

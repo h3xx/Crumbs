@@ -4,7 +4,7 @@ use strict;
 
 use lib '..', '../third_party';
 
-use CGI::Simple;
+require CGI::Simple;
 
 my $cgi = CGI::Simple->new;
 

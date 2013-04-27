@@ -4,8 +4,8 @@ use strict;
 use lib '..', '../third_party';
 
 #use CGI::Carp 'fatalsToBrowser';
-use CGI::Simple;
-use Crumbs::Session;
+require CGI::Simple;
+require Crumbs::Session;
 
 my $cgi = CGI::Simple->new;
 my $session = Crumbs::Session->new(
@@ -22,5 +22,5 @@ if ($cgi->http or $cgi->https) {
 }
 
 print '<pre>';
-use Data::Dumper;
+require Data::Dumper;
 print Data::Dumper->Dump([\%ENV,\@ARGV],[qw/ ENV ARGV /]);

@@ -4,8 +4,8 @@ use strict;
 
 use lib '..', '../third_party';
 
-use CGI::Simple;
-use Crumbs::Session;
+require CGI::Simple;
+require Crumbs::Session;
 
 my $cgi = CGI::Simple->new;
 my $session = Crumbs::Session->new(

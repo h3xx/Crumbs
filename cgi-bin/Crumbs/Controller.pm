@@ -18,7 +18,7 @@ sub new {
 
 sub user {
 	my $self = shift;
-	use Crumbs::Controller::User;
+	require Crumbs::Controller::User;
 
 	$self->{'user'} || (
 		$self->{'user'} = Crumbs::Controller::User->new(
@@ -32,7 +32,7 @@ sub user {
 
 sub crumb {
 	my $self = shift;
-	use Crumbs::Controller::Crumb;
+	require Crumbs::Controller::Crumb;
 
 	$self->{'crumb'} || (
 		$self->{'crumb'} = Crumbs::Controller::Crumb->new(

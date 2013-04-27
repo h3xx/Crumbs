@@ -4,8 +4,8 @@ use strict;
 use lib '..', '../third_party';
 
 use CGI::Carp 'fatalsToBrowser';
-use CGI::Simple;
-use Crumbs::Session;
+require CGI::Simple;
+require Crumbs::Session;
 
 my $cgi = CGI::Simple->new;
 my $session = Crumbs::Session->new(
@@ -21,7 +21,7 @@ if ($cgi->http or $cgi->https) {
 	);
 }
 
-use Crumbs::View::UserForms::Reset;
+require Crumbs::View::UserForms::Reset;
 
 my $c = Crumbs::View::UserForms::Reset->new(
 	'cgi'	=> $cgi,
