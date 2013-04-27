@@ -6,7 +6,6 @@ use lib '..', '../third_party';
 
 require CGI::Simple;
 require Crumbs::Session;
-require Crumbs::View::UserForms::Signup;
 
 my $cgi = CGI::Simple->new;
 my $session = Crumbs::Session->new(
@@ -20,6 +19,7 @@ print $cgi->header(
 	'-cookie'	=> $session->cookie,
 );
 
+require Crumbs::View::UserForms::Signup;
 my $c = Crumbs::View::UserForms::Signup->new(
 	'cgi'	=> $cgi,
 	'session'=> $session,
