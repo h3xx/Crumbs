@@ -1,5 +1,4 @@
 #!/usr/bin/perl -w
-#!C:\xampp\perl\bin\perl.exe -w
 use strict;
 
 use lib '..', '../third_party';
@@ -19,22 +18,14 @@ if ($cgi->http or $cgi->https) {
 		'-type'		=> 'text/html',
 		'-charset'	=> 'utf8',
 		'-cookie'	=> $session->cookie,
-		'-expires'	=> '+3d',
 	);
 }
 
-print q%<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-	var d = new Date();
-	$('#output').text(d.toISOString());
-});
-</script>
-</head>
-<body>
-<div id="output"></div>
-</body>
-</html>%;
+use Crumbs::View::UserForms::Reset;
+
+my $c = Crumbs::View::UserForms::Reset->new(
+	'cgi'	=> $cgi,
+	'session'	=> $session,
+);
+
+print $c->content;

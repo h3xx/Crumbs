@@ -4,7 +4,6 @@ use warnings;
 
 our $VERSION = '0.01';
 
-
 sub new {
 	my $class = shift;
 
@@ -22,7 +21,7 @@ sub user {
 	$self->{'user'} || (
 		$self->{'user'} = Crumbs::Model::User->new(
 			'session'=> $self->{'session'},
-			'db'	=> $self->db,
+			'db'	=> $self->{'db'},
 		)
 	)
 }
@@ -33,18 +32,7 @@ sub crumb {
 
 	$self->{'user'} || (
 		$self->{'user'} = Crumbs::Model::Crumb->new(
-			'db'	=> $self->db,
-		)
-	)
-}
-
-sub db {
-	my $self = shift;
-	use Crumbs::Model::Database	qw//;
-
-	$self->{'db'} || (
-		$self->{'db'} = Crumbs::Model::Database->new(
-			'parent'	=> $self->{'parent'},
+			'db'	=> $self->{'db'},
 		)
 	)
 }

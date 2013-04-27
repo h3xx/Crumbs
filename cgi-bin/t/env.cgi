@@ -5,11 +5,13 @@ use lib '..', '../third_party';
 
 #use CGI::Carp 'fatalsToBrowser';
 use CGI::Simple;
-use CGI::Session;
+use Crumbs::Session;
 
 my $cgi = CGI::Simple->new;
-my $session = CGI::Session->load(undef, $cgi, undef);
-$session->new unless defined $session->id;
+my $session = Crumbs::Session->new(
+	'cgi'	=> $cgi,
+	'rcfile'=> '../../global.conf',
+);
 
 if ($cgi->http or $cgi->https) {
 	print $cgi->header(
@@ -20,4 +22,5 @@ if ($cgi->http or $cgi->https) {
 }
 
 print '<pre>';
-{use Data::Dumper; print Data::Dumper->Dump([\%ENV]);}
+use Data::Dumper;
+print Data::Dumper->Dump([\%ENV,\@ARGV],[qw/ ENV ARGV /]);

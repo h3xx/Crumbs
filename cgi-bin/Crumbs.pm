@@ -4,7 +4,6 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use CGI::Session		qw//;
 use Config::General		qw//;
 
 sub new {
@@ -15,8 +14,6 @@ sub new {
 		'content-type'	=> 'application/json', # later
 		@_,
 	}, $class;
-
-	$self->_initsession;
 
 	$self
 }
@@ -41,35 +38,17 @@ sub cfgvar {
 
 # --- SESSION METHODS ---
 
-sub _initsession {
+sub sessvar {
 	my $self = shift;
 
-	# let's hope this is portable
-	$self->{'session'} = CGI::Session->new(undef, $self->{'cgi'}, undef)
-		or die CGI::Session->errstr;
-}
-
-#sub _destroysession {
-#	my $self = shift;
-#
-#	# save session
-#	$self->{'session'}->save_param
-#		if defined $self->{'session'};
-#}
-
-sub sessvar {
-	my ($self, $var, $val) = @_;
-
 	# set the value if defined, else get value
-	defined $val ?
-		$self->{'session'}->param($var, $val) :
-		$self->{'session'}->param($var)
+	$self->session->param(@_)
 }
 
 sub sesscookie {
 	my $self = shift;
 
-	$self->{'session'}->cookie
+	$self->session->cookie
 }
 
 # --- INITIALIZER METHODS ---
@@ -81,8 +60,9 @@ sub model {
 	$self->{'model'} || (
 		$self->{'model'} = Crumbs::Model->new(
 			'parent'=> $self,
+			'db'	=> $self->db,
 			'cgi'	=> $self->{'cgi'},
-			'session'=> $self->{'session'},
+			'session'=> $self->session,
 		)
 	);
 }
@@ -96,7 +76,7 @@ sub controller {
 			'parent'=> $self,
 			'cgi'	=> $self->{'cgi'},
 			'model'	=> $self->model,
-			'session'=> $self->{'session'},
+			'session'=> $self->session,
 		)
 	);
 }
@@ -110,7 +90,7 @@ sub view {
 			'parent'=> $self,
 			'cgi'	=> $self->{'cgi'},
 			'model'	=> $self->model,
-			'session'=> $self->{'session'},
+			'session'=> $self->session,
 		)
 	);
 }
@@ -128,6 +108,29 @@ sub cfg {
 	#$self->{'cfg'} = Config::General->new($rc)->getall;
 	my %cf = Config::General->new($rc)->getall;
 	$self->{'cfg'} = \%cf;
+}
+
+sub session {
+	my $self = shift;
+	use Crumbs::Session;
+
+	$self->{'session'} || (
+		$self->{'session'} = Crumbs::Session->new(
+			'cgi'	=> $self->{'cgi'},
+			'db'	=> $self->db,
+		)
+	);
+}
+
+sub db {
+	my $self = shift;
+	use Crumbs::Database;
+
+	$self->{'db'} || (
+		$self->{'db'} = Crumbs::Database->new(
+			'cfg'	=> $self->cfg,
+		)
+	)
 }
 
 # --- GENERAL METHODS ---

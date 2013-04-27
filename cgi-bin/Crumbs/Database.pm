@@ -1,4 +1,4 @@
-package Crumbs::Model::Database;
+package Crumbs::Database;
 use strict;
 use warnings;
 
@@ -35,7 +35,7 @@ sub dbi {
 sub _dsn {
 	my $self = shift;
 
-	# XXX : do I really give a shit?
+	# XXX : do I really want to lazy-create a scalar?
 	#if ($self->{'dsn'}) {
 	#	return $self->{'dsn'};
 	#}
@@ -55,7 +55,7 @@ sub _dsn {
 sub db_cfgvar {
 	my ($self, $var) = @_;
 
-	$self->{'parent'}->cfgvar('database', $var)
+	$self->{'cfg'}->{'database'}->{$var}
 }
 
 =head1 AUTHOR

@@ -5,11 +5,14 @@ use strict;
 use lib '..', '../third_party';
 
 use CGI::Simple;
-use CGI::Session;
+use Crumbs::Session;
 use Crumbs::View::UserForms::Pwreset;
 
 my $cgi = CGI::Simple->new;
-my $session = CGI::Session->new(undef, $cgi, undef);
+my $session = Crumbs::Session->new(
+	'cgi'	=> $cgi,
+	'rcfile'=> '../../global.conf',
+);
 
 print $cgi->header(
 	'-type'		=> 'text/html',

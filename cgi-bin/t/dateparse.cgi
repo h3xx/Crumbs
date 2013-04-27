@@ -5,13 +5,15 @@ use lib '..', '../third_party';
 
 use CGI::Carp 'fatalsToBrowser';
 use CGI::Simple;
-use CGI::Session;
+use Crumbs::Session;
 use JSON::PP	qw/ encode_json /;
 use Date::Parse	qw/ strptime /;
 
 my $cgi = CGI::Simple->new;
-my $session = CGI::Session->load(undef, $cgi, undef);
-$session->new unless defined $session->id;
+my $session = Crumbs::Session->new(
+	'cgi'	=> $cgi,
+	'rcfile'=> '../../global.conf',
+);
 
 if ($cgi->http or $cgi->https) {
 	print $cgi->header(
@@ -23,6 +25,11 @@ if ($cgi->http or $cgi->https) {
 
 my $datestring = $cgi->param('d');
 
-my $r = [&strptime($datestring)];
+my $r;
+if (defined $datestring) {
+	$r = [&strptime($datestring)];
+} else {
+	$r = ['No `d` parameter'];
+}
 
 print &encode_json($r);
