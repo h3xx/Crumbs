@@ -14,12 +14,13 @@ sub new {
 	$self
 }
 
-# query crumbs in the area
-sub get {
-	my ($self, $lat, $lon, $from_user, $stickpole, $limit) = @_;
+# query crumb ids in the area
+sub list {
+	my ($self, $lat, $lon, $from_user, $limit) = @_;
 
 	# get position
-	my $pos = $self->_pos($lat, $lon);
+	require Crumbs::Tools;
+	my $pos = &Crumbs::Tools::pos($lat, $lon);
 	unless (defined $pos) {
 		return {
 			'result'=> 0,
@@ -36,12 +37,6 @@ sub get {
 	};
 }
 
-# query sticking poles in the area
-sub pole {
-	my ($self, $lat, $lon, $limit) = @_;
-	# FIXME
-}
-
 # post a crumb
 sub put {
 	my ($self, $lat, $lon, $stickpole) = @_;
@@ -53,7 +48,8 @@ sub put {
 	} unless defined $uid;
 
 	# get position
-	my $pos = $self->_pos($lat, $lon);
+	require Crumbs::Tools;
+	my $pos = &Crumbs::Tools::pos($lat, $lon);
 	unless (defined $pos) {
 		return {
 			'result'=> 0,
@@ -124,48 +120,6 @@ sub read {
 	};
 }
 
-# use trickery to determine position
-sub _pos {
-	my ($self, $lat, $lon) = @_;
-
-	require Crumbs::Tools;
-
-	# step 1: determine from given coordinates
-	my $pos;
-	if (&Crumbs::Tools::is_numeric($lat, $lon)) {
-		$pos = [$lat, $lon];
-		$self->{'session'}->param('lastpos', $pos);
-		return $pos;
-	}
-
-	# step 2: determine from last save coordinates
-	$pos = $self->{'session'}->param('lastpos');
-	return $pos if defined $pos;
-
-	# step 3: determine from IP address
-	if ($self->{'parent'}->cfgvar('options', 'enable_geoip')) {
-		my $cli_addr = $self->{'cgi'}->remote_addr;
-		unless (defined $cli_addr and $cli_addr !~ /^(127\.0\.0\.1|192\.168\.|10\.0)/) {
-			# local network address, can't use it
-			return undef;
-		}
-
-		my $gi;
-		# sidestep compilation errors if Geo::IP is not installed
-		eval q%
-			use Geo::IP;
-			$gi = Geo::IP->open($self->{'parent'}->cfgvar('geoip', 'database'), GEOIP_STANDARD);
-		%;
-		return undef unless defined $gi;
-
-		my $record = $gi->record_by_addr($cli_addr);
-		$pos = [ $record->latitude, $record->longitude ] if defined $record;
-
-		$self->{'session'}->param('lastpos', $pos);
-	}
-
-	return $pos;
-}
 
 =head1 AUTHOR
 

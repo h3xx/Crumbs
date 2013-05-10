@@ -72,6 +72,47 @@ sub is_numeric {
 	1;
 }
 
+# use trickery to determine position
+sub pos {
+	my ($lat, $lon, $parent, $cgi, $session) = @_;
+
+	# step 1: determine from given coordinates
+	my $pos;
+	if (&is_numeric($lat, $lon)) {
+		$pos = [$lat, $lon];
+		$session->param('lastpos', $pos);
+		return $pos;
+	}
+
+	# step 2: determine from last save coordinates
+	$pos = $session->param('lastpos');
+	return $pos if defined $pos;
+
+	# step 3: determine from IP address
+	if ($parent->cfgvar('options', 'enable_geoip')) {
+		my $cli_addr = $cgi->remote_addr;
+		unless (defined $cli_addr and $cli_addr !~ /^(127\.0\.0\.1|192\.168\.|10\.0)/) {
+			# local network address, can't use it
+			return undef;
+		}
+
+		my $gi;
+		# sidestep compilation errors if Geo::IP is not installed
+		eval q%
+			use Geo::IP;
+			$gi = Geo::IP->open($parent->cfgvar('geoip', 'database'), GEOIP_STANDARD);
+		%;
+		return undef unless defined $gi;
+
+		my $record = $gi->record_by_addr($cli_addr);
+		$pos = [ $record->latitude, $record->longitude ] if defined $record;
+
+		$session->param('lastpos', $pos);
+	}
+
+	return $pos;
+}
+
 =head1 AUTHOR
 
 Dan Church S<E<lt>h3xx@gmx.comE<gt>>
