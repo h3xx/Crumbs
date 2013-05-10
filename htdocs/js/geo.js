@@ -4,7 +4,7 @@ window.geo = {
 	errorStr: null,
 	bsKey: 'last-position',	// what key to use for browser storage
 	options: {
-		timeout: 60000,
+		timeout: 60000, // 1 minute
 	},
 
 	get: function (successCb, errorCb) {
@@ -37,14 +37,15 @@ window.geo = {
 		);
 	},
 
-	loadLast: function () {
+	/* browser storage functions */
+	_loadLast: function () {
 		var lastParams = window.localStorage.getItem(this.bsKey);
 		if (lastParams) {
 			this.last = $.parseJSON(lastParams);
 		}
 	},
 
-	saveLast: function () {
+	_saveLast: function () {
 		if (this.last) {
 			var lastParams = JSON.stringify(this.last);
 			window.localStorage.setItem(this.bsKey, lastParams);
@@ -71,7 +72,7 @@ window.geo = {
 			$.extend(self.last, pos.coords);
 			// remove unnecessary bits
 			delete self.last.QueryInterface;
-			self.saveLast();
+			self._saveLast();
 			self.error = false;
 			return true;
 		} else {
@@ -110,4 +111,4 @@ window.geo = {
 	},
 };
 
-window.geo.loadLast();
+window.geo._loadLast();
