@@ -17,20 +17,49 @@ sub new {
 sub add_crumb {
 	my ($self, $uid, $lat, $lon, $time) = @_;
 
-	return 0 unless defined $uid and defined $lat and defined $lon;
+	return undef unless defined $uid and defined $lat and defined $lon;
 
+	# FIXME
 #	my $q = $self->{'db'}->prepare('select user_verify(?,?)');
 
+}
+
+sub get_contents {
+	my ($self, $uid, $crumb_id) = @_;
+
+	return undef unless defined $crumb_id;
+
+	my $q = $self->{'db'}->prepare('select crumb_get_contents(?,?)');
+
+	return undef unless $q->execute($uid, $crumb_id);
+
+	($q->fetchrow_array)[0]
+}
+
+sub list_crumbs {
+	my ($self, $uid, $lat, $lon, $limit) = @_;
+
+	# and not a fuck was given that day (defined $uid and)
+	return undef unless defined $lat and defined $lon;
+
+	# note: using `select crumb_list' instead of `select * from crumb_list'
+	#	will return a list of concatenated tuples ala
+	#	"(edNukBT6xnpEjL0,h3xx,1,1)" because crumb_list returns a table
+	my $q = $self->{'db'}->prepare('select * from crumb_list(?,?,?,?)');
+
+	return undef unless $q->execute($uid, $lat, $lon, $limit);
+
+	$q->fetchall_arrayref
 }
 
 sub delete_crumb {
 	my ($self, $uid, $crumb_id) = @_;
 
-	return 0 unless defined $uid and defined $crumb_id;
+	return undef unless defined $uid and defined $crumb_id;
 
 	my $q = $self->{'db'}->prepare('select crumb_delete(?,?)');
 
-	return 0 unless $q->execute($uid, $crumb_id);
+	return undef unless $q->execute($uid, $crumb_id);
 
 	($q->fetchrow_array)[0]
 }
@@ -38,11 +67,11 @@ sub delete_crumb {
 sub mark_read {
 	my ($self, $uid, $crumb_id) = @_;
 
-	return 0 unless defined $uid and defined $crumb_id;
+	return undef unless defined $uid and defined $crumb_id;
 
 	my $q = $self->{'db'}->prepare('select crumb_mark_read(?,?)');
 
-	return 0 unless $q->execute($uid, $crumb_id);
+	return undef unless $q->execute($uid, $crumb_id);
 
 	($q->fetchrow_array)[0]
 }

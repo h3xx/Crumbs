@@ -9,7 +9,7 @@
 
 -- DROP FUNCTION crumb_post(text, text);
 
-CREATE OR REPLACE FUNCTION crumb_post(_locked_read boolean, _posted_time timestamp without time zone, _pole_id character varying, _owner integer, _message character varying, _reply_to character varying, _lat real, _lon real)
+CREATE OR REPLACE FUNCTION crumb_post(_locked_read boolean, _posted_time timestamp without time zone, _owner integer, _message character varying, _reply_to character varying, _lat real, _lon real)
   RETURNS character varying AS
 $BODY$
 
@@ -35,14 +35,6 @@ begin
 		end if;
 	end if;
 
-	-- make sure the pole exists
-	if _pole_id is not null then
-		if not crumb_can_pole_post(_owner, _pole_id, _lat, _lon) then
-			--raise exception 'Cannot post on that pole.';
-			return null;
-		end if;
-	end if;
-
 	-- if it's a reply, make sure the crumb they can reply to it
 	if _reply_to is not null then
 		if not crumb_can_reply(_owner, _reply_to, _lat, _lon) then
@@ -57,8 +49,8 @@ begin
 		insert
 			into "crumb"
 			into _crumb_id
-			("locked_read", "posted_time", "pole_id", "owner", "message", "reply_to", "lat", "lon")
-			values(_locked_read, _posted_time, _pole_id, _owner, _message, _reply_to, _lat, _lon)
+			("locked_read", "posted_time", "owner", "message", "reply_to", "lat", "lon")
+			values(_locked_read, _posted_time, _owner, _message, _reply_to, _lat, _lon)
 			returning "crumb_id";
 		exception
 		when others then

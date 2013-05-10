@@ -18,11 +18,10 @@ begin
 	perform
 		"crumb_id"
 		from "crumb"
-		left join "pole" on ("crumb"."pole_id" = "pole"."pole_id")
 		where
 			"active" and
 			"crumb_id" = _crumb_id and
-			("crumb"."owner" = _who or "pole"."owner" = _who);
+			"crumb"."owner" = _who;
 
 	if not found then
 		return false;

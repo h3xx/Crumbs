@@ -14,29 +14,6 @@ sub new {
 	$self
 }
 
-# query crumb ids in the area
-sub list {
-	my ($self, $lat, $lon, $from_user, $limit) = @_;
-
-	# get position
-	require Crumbs::Tools;
-	my $pos = &Crumbs::Tools::pos($lat, $lon);
-	unless (defined $pos) {
-		return {
-			'result'=> 0,
-			'msg'	=> 'Failed to determine your position.',
-		};
-	}
-
-	# FIXME
-
-	return {
-		'result'=> 1,
-		'pos'	=> $pos,
-		'msg'	=> 'poop',
-	};
-}
-
 # post a crumb
 sub put {
 	my ($self, $lat, $lon, $stickpole) = @_;
@@ -49,7 +26,7 @@ sub put {
 
 	# get position
 	require Crumbs::Tools;
-	my $pos = &Crumbs::Tools::pos($lat, $lon);
+	my $pos = &Crumbs::Tools::pos($lat, $lon, @{$self}{qw/ parent cgi session /});
 	unless (defined $pos) {
 		return {
 			'result'=> 0,

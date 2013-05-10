@@ -23,4 +23,4 @@ if ($cgi->http or $cgi->https) {
 
 print '<pre>';
 require Data::Dumper;
-print Data::Dumper->Dump([\%ENV,\@ARGV],[qw/ ENV ARGV /]);
+print Data::Dumper->Dump([\%ENV,\@ARGV,$cgi],[qw/ ENV ARGV cgi /]);

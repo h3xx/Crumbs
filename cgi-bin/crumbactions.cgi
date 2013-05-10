@@ -28,13 +28,13 @@ unless (defined $a) {
 		'msg'	=> 'No action specified.',
 	};
 } elsif ($a eq 'get') {
-	$r = $c->
+	$r = $c->view->crumb->get($cgi->param('id'));
 } elsif ($a eq 'list') {
 	# lat, lon, from_user, limit
-	$r = $c->controller->crumb->list(map {$cgi->param($_)} qw/ lat lon un l /);
+	$r = $c->view->crumb->list(map {scalar $cgi->param($_)} qw/ lat lon un l /);
 } elsif ($a eq 'put') {
 	# lat, lon, from_user, stickpole, limit
-	$r = $c->controller->crumb->put(map {$cgi->param($_)} qw/ lat lon /);
+	$r = $c->controller->crumb->put(map {scalar $cgi->param($_)} qw/ lat lon /);
 } elsif ($a eq 'del') {
 	# crumb_id
 	$r = $c->controller->crumb->del($cgi->param('cid'));
