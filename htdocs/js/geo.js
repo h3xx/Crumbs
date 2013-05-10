@@ -1,7 +1,8 @@
 window.geo = {
-	last: {},
+	last: null,
 	error: true,
 	errorStr: null,
+	bsKey: 'last-position',	// what key to use for browser storage
 	options: {
 		timeout: 60000,
 	},
@@ -36,6 +37,20 @@ window.geo = {
 		);
 	},
 
+	loadLast: function () {
+		var lastParams = window.localStorage.getItem(this.bsKey);
+		if (lastParams) {
+			this.last = $.parseJSON(lastParams);
+		}
+	},
+
+	saveLast: function () {
+		if (this.last) {
+			var lastParams = JSON.stringify(this.last);
+			window.localStorage.setItem(this.bsKey, lastParams);
+		}
+	},
+
 	/**
 	 * Listing 1: Requesting geolocation data
 	 *
@@ -50,9 +65,13 @@ window.geo = {
 		var self = this;
 
 		if (pos && pos.coords) {
+			if (self.last == null) {
+				self.last = {};
+			}
 			$.extend(self.last, pos.coords);
 			// remove unnecessary bits
 			delete self.last.QueryInterface;
+			self.saveLast();
 			self.error = false;
 			return true;
 		} else {
@@ -90,3 +109,5 @@ window.geo = {
 		}
 	},
 };
+
+window.geo.loadLast();
