@@ -7,6 +7,19 @@ window.geo = {
 		timeout: 60000, // 1 minute
 	},
 
+	getImmediate: function (successCb, errorCb, firstCb) {
+		// uses last position if available, then refreshes
+		if (this.last) {
+			if (firstCb) {
+				firstCb(this.last);
+			}
+			this.get(successCb, errorCb);
+		} else {
+			this.get(firstCb, errorCb);
+		}
+
+	},
+
 	get: function (successCb, errorCb) {
 		var self = this;
 
