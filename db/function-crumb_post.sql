@@ -35,6 +35,11 @@ begin
 		end if;
 	end if;
 
+	-- use now() if time is unspecified
+	if _posted_time is null then
+		_posted_time := now();
+	end if;
+
 	-- if it's a reply, make sure the crumb they can reply to it
 	if _reply_to is not null then
 		if not crumb_can_reply(_owner, _reply_to, _lat, _lon) then
