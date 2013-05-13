@@ -15,13 +15,17 @@ sub new {
 }
 
 sub add_crumb {
-	my ($self, $uid, $lat, $lon, $time) = @_;
+	my ($self, $uid, $lat, $lon, $message, $time, $reply_to) = @_;
 
 	return undef unless defined $uid and defined $lat and defined $lon;
 
 	# FIXME
-#	my $q = $self->{'db'}->prepare('select user_verify(?,?)');
+	# _locked_read (depr.), _posted_time, _owner, _message, _reply_to, _lat, _lon 
+	my $q = $self->{'db'}->prepare('select crumb_post(?,?,?,?,?,?,?)');
 
+	return undef unless $q->execute(0, $time, $uid, $message, $reply_to, $lat, $lon);
+
+	($q->fetchrow_array)[0]
 }
 
 sub get_contents {

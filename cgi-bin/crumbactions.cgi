@@ -31,10 +31,18 @@ unless (defined $a) {
 	$r = $c->view->crumb->get($cgi->param('id'));
 } elsif ($a eq 'list') {
 	# lat, lon, from_user, limit
-	$r = $c->view->crumb->list(map {scalar $cgi->param($_)} qw/ lat lon un l /);
+	# caveat: CGI::Param called in list context will return a foreshortened
+	# list if the param name is unspecified, messing up indexing
+	$r = $c->view->crumb->list(
+		map {scalar $cgi->param($_)} qw/ lat lon un l /
+	);
 } elsif ($a eq 'put') {
 	# lat, lon, from_user, stickpole, limit
-	$r = $c->controller->crumb->put(map {scalar $cgi->param($_)} qw/ lat lon /);
+	# caveat: CGI::Param called in list context will return a foreshortened
+	# list if the param name is unspecified, messing up indexing
+	$r = $c->controller->crumb->put(
+		map {scalar $cgi->param($_)} qw/ lat lon msg time reply_to /
+	);
 } elsif ($a eq 'del') {
 	# crumb_id
 	$r = $c->controller->crumb->del($cgi->param('cid'));

@@ -16,7 +16,7 @@ sub new {
 
 # post a crumb
 sub put {
-	my ($self, $lat, $lon, $stickpole) = @_;
+	my ($self, $lat, $lon, $message, $time, $reply_to) = @_;
 	my $uid = $self->{'session'}->param('user_id');
 
 	return {
@@ -42,12 +42,22 @@ sub put {
 	#
 	# Source: http://www.postgresql.org/docs/current/static/earthdistance.html
 	#
-	# However, the ll_to_earth(float8, float8) function takes (latitude, longitude)
+	# However, the ll_to_earth(float8, float8) function takes (latitude,
+	# longitude)
+
+	my $result = $self->{'model'}->crumb->add_crumb($uid, $lat, $lon, $message, $time, $reply_to);
+
+	unless (defined $result) {
+		return {
+			'result'=> 0,
+			'msg'	=> 'Failed to post crumb.',
+		};
+	}
 
 	return {
 		'result'=> 1,
-		'pos'	=> $pos,
-		'msg'	=> 'poop',
+		'id'	=> $result,
+		'msg'	=> 'Success.',
 	};
 }
 
