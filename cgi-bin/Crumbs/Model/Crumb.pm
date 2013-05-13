@@ -29,11 +29,11 @@ sub get_contents {
 
 	return undef unless defined $crumb_id;
 
-	my $q = $self->{'db'}->prepare('select crumb_get_contents(?,?)');
+	my $q = $self->{'db'}->prepare('select * from crumb_get_contents(?,?)');
 
 	return undef unless $q->execute($uid, $crumb_id);
 
-	($q->fetchrow_array)[0]
+	$q->fetchrow_hashref
 }
 
 sub list_crumbs {

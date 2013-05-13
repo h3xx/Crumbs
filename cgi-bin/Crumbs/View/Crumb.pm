@@ -52,20 +52,18 @@ sub get {
 	my $uid = $self->{'session'}->param('user_id');
 	# (idgaf if you're logged in)
 
-	my $message = $self->{'model'}->crumb->get_contents($uid, $cid);
+	my $buff = $self->{'model'}->crumb->get_contents($uid, $cid);
 
-	unless (defined $message) {
+	unless (defined $buff) {
 		return {
 			'result'=> 0,
 			'msg'	=> 'No such crumb.',
 		};
 	}
 
-	return {
-		'result'=> 1,
-		'id'	=> $cid,
-		'msg'	=> $message,
-	};
+	$buff->{'result'} = 1;
+
+	return $buff;
 }
 
 =head1 AUTHOR

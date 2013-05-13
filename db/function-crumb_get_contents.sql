@@ -10,23 +10,28 @@
 -- DROP FUNCTION crumb_get_contents(integer, character varying)
 
 CREATE OR REPLACE FUNCTION crumb_get_contents(_who integer, _crumb_id character varying)
-  RETURNS character varying AS
+  RETURNS table (
+  	"id"		character varying,
+	"user"		character varying,
+	"lat"		real,
+	"lon"		real,
+	"msg"		character varying
+  ) AS
 $BODY$
-
-declare
-	_message	character varying;
 
 begin
 
+	return query
 	select
-		into _message
-		"message"
+		"crumb"."crumb_id" as "id",
+		"user"."user_name" as "user",
+		"crumb"."lat", "crumb"."lon",
+		"crumb"."message" as "msg"
 		from "crumb"
+		left join "user" on ("crumb"."owner" = "user"."user_id")
 		where
 			"active" and
 			"crumb_id" = _crumb_id;
-
-	return _message;
 
 	-- Naaah...
 	--perform crumb_mark_read(_who, _crumb_id);
