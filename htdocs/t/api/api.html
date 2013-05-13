@@ -7,11 +7,16 @@
 <script src="/js/geo.js"></script>
 <script src="/js/bs.js"></script>
 <script src="crumbs-api.js"></script>
-<script src="map.js"></script>
-<script src="mapmain.js"></script>
-<link rel="stylesheet" type="text/css" href="map.css" />
+<script src="apitest.js"></script>
+<link rel="stylesheet" type="text/css" href="api.css" />
 </head>
 <body>
+	<form id="postform">
+		<input type="text" id="msg" placeholder="message" />
+		<input type="text" id="lat" placeholder="lat" />
+		<input type="text" id="lon" placeholder="lon" />
+		<input type="submit" />
+	</form>
 <div id="map"></div>
 <div id="debug"></div>
 </body>

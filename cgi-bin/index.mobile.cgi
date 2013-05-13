@@ -23,14 +23,13 @@ if ($cgi->http or $cgi->https) {
 }
 
 my @scripts = qw[
-	js/jq/jquery-1.9.1.min.js
-	js/mobile.ui.loginpage.js
+	js/jq/jquery.min.js
 	js/mobile.js
-	js/jq/jquery.mobile-1.3.0.min.js
+	js/jq/jquery.mobile.min.js
 ];
 
 my @styles = qw[
-	css/jquery.mobile-1.3.0.min.css
+	css/jquery.mobile.min.css
 	css/mobile.css
 ];
 
@@ -46,10 +45,9 @@ printf '<script type="text/javascript" src="%s"></script>', $_ for @scripts;
 print q%</head>
 <body>%;
 
-printf '<input type="text" id="uid" name="uid" value="%s" />',
-	$cgi->escapeHTML($session->param('user_id') || '');
-
-printf '<input type="hidden" id="un" name="un" value="%s" />',
+printf '<input type="hidden" id="uid" name="uid" value="%s" />'.
+	'<input type="hidden" id="un" name="un" value="%s" />',
+	$cgi->escapeHTML($session->param('user_id') || ''),
 	$cgi->escapeHTML($session->param('user_name') || '');
 
 print q%<div id="mobsite">
