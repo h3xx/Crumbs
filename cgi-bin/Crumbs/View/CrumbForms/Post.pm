@@ -14,11 +14,11 @@ sub content {
 	my (@scripts, @styles, @scripts_body);
 
 	if ($self->{'is_mobile'}) {
-		@scripts = (@{$self->{'scripts_mob'}});
+		@scripts = (@{$self->{'scripts_mob'}}, 'js/geo.js');
 		@styles = (@{$self->{'styles_mob'}}, 'css/userform.mobile.css');
 		@scripts_body = ('js/post.mobile.js');
 	} else {
-		@scripts = (@{$self->{'scripts_nomob'}}, 'js/post.js');
+		@scripts = (@{$self->{'scripts_nomob'}}, 'js/geo.js', 'js/post.js');
 		@styles = (@{$self->{'styles_nomob'}}, 'css/userform.css');
 	}
 
@@ -27,7 +27,9 @@ q%<div id="progressbar"></div>
 <div id="result"></div>
 <div id="okbtn"><a href="/m" data-role="button" data-theme="b">OK</a></div>
 <form id="postform" action="/c" method="get">
-<input type="hidden" name="a" value="put" />%.
+<input type="hidden" name="a" value="put" />
+<input type="hidden" name="lat" id="lat" />
+<input type="hidden" name="lon" id="lon" />%.
 
 (sprintf '<div id="loggedinas">%s</div>',
 	$cgi->escapeHTML(
@@ -41,8 +43,10 @@ q%<div id="progressbar"></div>
 '<textarea id="crumbbody" maxlength="1024" name="msg" placeholder="Type your message here"></textarea>' .
 
 
-q%<input id="postsub" type="submit" value="Post" data-rel="back" data-theme="b" data-inline="true" />
+q%<div>
+<input id="postsub" type="submit" value="Post" data-rel="back" data-theme="b" data-inline="true" />
 <input id="cancel" type="button" name="cancel" value="Cancel" data-rel="back" data-theme="c" data-inline="true" onclick="history.back();" />
+</div>
 </form>%;
 
 	my $footer =
