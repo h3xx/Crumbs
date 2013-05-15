@@ -25,8 +25,8 @@ print q%<!DOCTYPE html>
 <title>Verify Your Email</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="css/jquery-ui-1.10.2.min.css" type="text/css" media="screen" />
-<script type="text/javascript" src="js/jq/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jq/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jq/jquery.min.js"></script>
+<script type="text/javascript" src="js/jq/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/verify.js"></script>
 <link rel="stylesheet" type="text/css" href="css/userform.css" />
 </head>
