@@ -1,0 +1,19 @@
+#minimap {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 75px;
+	height: 75px;
+}
+
+#minimap #mmloading {
+	width: 55px;
+	height: 55px;
+	background-image: url('images/ajax-loader.gif');
+	margin: 10px;
+	background-repeat: no-repeat;
+}
+
+#result {
+	position: relative;
+}

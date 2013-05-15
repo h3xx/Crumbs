@@ -16,16 +16,19 @@ sub content {
 	my (@scripts, @styles, @scripts_body);
 
 	if ($self->{'is_mobile'}) {
-		@scripts = (@{$self->{'scripts_mob'}}, 'js/geo.js');
+		@scripts = (@{$self->{'scripts_mob'}});
 		@styles = (@{$self->{'styles_mob'}}, 'css/userform.mobile.css');
 		@scripts_body = ('js/post.mobile.js');
 	} else {
-		@scripts = (@{$self->{'scripts_nomob'}}, 'js/geo.js', 'js/post.js');
+		@scripts = (@{$self->{'scripts_nomob'}}, 'js/post.js');
 		@styles = (@{$self->{'styles_nomob'}}, 'css/userform.css');
 	}
+
+	# make sure to load maps api
 	push @scripts,
-		sprintf '//maps.googleapis.com/maps/api/js?v=3&key=%s&sensor=true',
-		$apikey;
+		(sprintf '//maps.googleapis.com/maps/api/js?v=3&key=%s&sensor=true', $apikey),
+		'js/geo.js',
+		'js/map.js';
 
 	my $content =
 q%<div id="progressbar"></div>
