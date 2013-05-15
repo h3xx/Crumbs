@@ -8,5 +8,7 @@ RewriteRule ^c$ /cgi-bin/crumbactions.cgi
 
 RewriteRule ^m$ /cgi-bin/index.mobile.cgi
 
+RewriteRule ^(post)$ /cgi-bin/postforms/$1.cgi
+
 ErrorDocument 500 /pages/500.html
 ErrorDocument 404 /pages/500.html
