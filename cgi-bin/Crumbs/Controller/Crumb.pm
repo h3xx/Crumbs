@@ -45,7 +45,7 @@ sub put {
 	# However, the ll_to_earth(float8, float8) function takes (latitude,
 	# longitude)
 
-	my $result = $self->{'model'}->crumb->add_crumb($uid, $lat, $lon, $message, $time, $reply_to);
+	my $result = $self->{'model'}->crumb->add_crumb($uid, @{$pos}, $message, $time, $reply_to);
 
 	unless (defined $result) {
 		return {

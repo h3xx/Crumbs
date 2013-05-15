@@ -17,11 +17,12 @@ sub new {
 sub add_crumb {
 	my ($self, $uid, $lat, $lon, $message, $time, $reply_to) = @_;
 
-	return undef unless defined $uid and defined $lat and defined $lon;
-
 	# XXX : empty strings are NOT NULL
 	$time = undef unless $time;
 	$reply_to = undef unless $reply_to;
+	$message = undef unless defined $message and length $message;
+
+	return undef unless defined $uid and defined $lat and defined $lon and defined $message;
 
 	# FIXME
 	# _locked_read (depr.), _posted_time, _owner, _message, _reply_to, _lat, _lon 
