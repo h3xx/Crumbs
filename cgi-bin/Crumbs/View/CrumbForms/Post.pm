@@ -11,6 +11,8 @@ sub content {
 	my $self = shift;
 	my ($cgi, $session) = @{$self}{qw/ cgi session /};
 
+	my $apikey = $self->{'parent'}->cfgvar('googlemaps', 'apikey');
+
 	my (@scripts, @styles, @scripts_body);
 
 	if ($self->{'is_mobile'}) {
@@ -21,10 +23,15 @@ sub content {
 		@scripts = (@{$self->{'scripts_nomob'}}, 'js/geo.js', 'js/post.js');
 		@styles = (@{$self->{'styles_nomob'}}, 'css/userform.css');
 	}
+	push @scripts,
+		sprintf '//maps.googleapis.com/maps/api/js?v=3&key=%s&sensor=true',
+		$apikey;
 
 	my $content =
 q%<div id="progressbar"></div>
-<div id="result"></div>
+<div id="result">
+<div id="minimap"></div>
+</div>
 <div id="okbtn"><a href="/m" data-role="button" data-theme="b">OK</a></div>
 <form id="postform" action="/c" method="get">
 <input type="hidden" name="a" value="put" />
@@ -32,9 +39,7 @@ q%<div id="progressbar"></div>
 <input type="hidden" name="lon" id="lon" />%.
 
 # hack API key into the DOM somehow
-(sprintf '<input type="hidden" id="apikey" value="%s" />',
-	$cgi->escapeHTML($self->{'parent'}->cfgvar('googlemaps', 'apikey'))
-) .
+(sprintf '<input type="hidden" id="apikey" value="%s" />', $cgi->escapeHTML($apikey)) .
 
 (sprintf '<div id="loggedinas">%s</div>',
 	$cgi->escapeHTML(

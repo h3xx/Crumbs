@@ -60,7 +60,7 @@ sub _stylesheet {
 
 sub _script {
 	my $self = shift;
-	join '', (map { sprintf '<script type="text/javascript" src="%s"></script>', $_ } @_)
+	join '', (map { sprintf '<script type="text/javascript" src="%s"></script>', $self->{'cgi'}->escapeHTML($_) } @_)
 }
 
 sub _headertitle {
