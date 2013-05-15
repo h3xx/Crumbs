@@ -31,6 +31,11 @@ q%<div id="progressbar"></div>
 <input type="hidden" name="lat" id="lat" />
 <input type="hidden" name="lon" id="lon" />%.
 
+# hack API key into the DOM somehow
+(sprintf '<input type="hidden" id="apikey" value="%s" />',
+	$cgi->escapeHTML($self->{'parent'}->cfgvar('googlemaps', 'apikey'))
+) .
+
 (sprintf '<div id="loggedinas">%s</div>',
 	$cgi->escapeHTML(
 		defined $session->param('user_id') ?

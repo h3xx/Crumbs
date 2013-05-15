@@ -6,24 +6,22 @@ use lib '..', '../third_party';
 
 use CGI::Carp 'fatalsToBrowser';
 require CGI::Simple;
-require Crumbs::Session;
+require Crumbs;
 
 my $cgi = CGI::Simple->new;
-my $session = Crumbs::Session->new(
-	'cgi'	=> $cgi,
-	'rcfile'=> '../../global.conf',
+my $c = Crumbs->new(
+	'content-type'	=> 'text/html',
+	'cgi'		=> $cgi,
+	'rcfile'	=> '../../global.conf',
 );
 
-print $cgi->header(
-	'-type'		=> 'text/html',
-	'-charset'	=> 'utf8',
-	'-cookie'	=> $session->cookie,
-);
+print $c->header;
 
 require Crumbs::View::CrumbForms::Post;
-my $c = Crumbs::View::CrumbForms::Post->new(
-	'cgi'	=> $cgi,
-	'session'=> $session,
+my $f = Crumbs::View::CrumbForms::Post->new(
+	'cgi'		=> $cgi,
+	'parent'	=> $c,
+	'session'	=> $c->session,
 );
 
-print $c->content;
+print $f->content;
