@@ -10,11 +10,11 @@ sub new {
 	my $self = bless {
 		'doctype'	=> '<!DOCTYPE html>',
 		'head_always'	=> '<meta name="viewport" content="width=device-width, initial-scale=1" />',
-		'scripts_always'=> ['js/jq/jquery-1.9.1.min.js'],
-		'scripts_mob'	=> ['js/jq/jquery.mobile-1.3.0.min.js'],
-		'scripts_nomob'	=> ['js/jq/jquery-ui-1.10.2.min.js'],
-		'styles_mob'	=> ['css/jquery.mobile-1.3.0.min.css'],
-		'styles_nomob'	=> ['css/jquery-ui-1.10.2.min.css'],
+		'scripts_always'=> ['js/jq/jquery.min.js'],
+		'scripts_mob'	=> ['js/jq/jquery.mobile.min.js'],
+		'scripts_nomob'	=> ['js/jq/jquery-ui.min.js'],
+		'styles_mob'	=> ['css/jquery.mobile.min.css'],
+		'styles_nomob'	=> ['css/jquery-ui.min.css'],
 		@_,
 	}, $class;
 
