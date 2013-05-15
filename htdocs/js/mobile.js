@@ -1,42 +1,51 @@
 $(document).ready(function () {
 
-	var navbar = 
-		$('<div data-role="footer" data-position="fixed" id="nb"></div>')
-		.append(
-			$('<div data-role="navbar"></div>')
+	function navbar_header (selected_id) {
+		var buttons = {},
+		navbar = 
+			$('<div data-role="header" data-position="fixed" data-id="nb"></div>')
 			.append(
-				$('<ul></ul>')
+				$('<div data-role="navbar"></div>')
 				.append(
-					$('<li><a href="#map">Map</a></li>'),
-					$('<li><a href="#account">Account</a></li>')
-				)
+					$('<ul></ul>')
+					.append(
+						$('<li></li>').append(buttons.map = $('<a href="#mappage">Map</a>')),
+						$('<li></li>').append(buttons.account = $('<a href="#accountpage">Account</a>'))
+					)
 
-			)
-		);
+				)
+			);
+		if (buttons[selected_id]) {
+			buttons[selected_id]
+			.addClass('ui-btn-active ui-state-persist');
+		}
+
+		return navbar;
+	}
+
+
 
 	$('#mobsite')
 	.append(
 		$('<div data-role="page" id="main"></div>')
-		.append(navbar),
-		$('<div data-role="page" id="account"></div>')
+		.append(navbar_header('')),
+		$('<div data-role="page" id="accountpage"></div>')
 		.append(
-			$('<div data-role="header" data-id="foo"><h1>Account</h1></div>'),
+			navbar_header('account'),
 			$('<div data-role="content"></div>')
 			.append(
 				$('<a href="/login?m=" data-rel="dialog" data-role="button">Login</a>'),
-				$('<a href="#map" data-role="button" class="ui-state-persist">Poop</a>')
-			),
-			navbar.clone()
-
+				$('<a href="/signup?m=" data-rel="dialog" data-role="button">Sign up</a>')
+			)
 		),
-		$('<div data-role="page" id="map"></div>')
+		$('<div data-role="page" id="mappage"></div>')
 		.append(
-			$('<div data-role="header" data-id="foo"></div>'),
+			navbar_header('map'),
 			$('<div data-role="content"></div>')
 			.append(
-				$('<a href="/post?m=" data-rel="dialog">Post</a>')
-			),
-			navbar.clone()
+				$('<a href="/post?m=" data-rel="dialog" data-role="button">Post New Crumb</a>'),
+				$('<div id="mapcanvas"></div>')
+			)
 		)
 		
 	);

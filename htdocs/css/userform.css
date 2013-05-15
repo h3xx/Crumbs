@@ -1,4 +1,5 @@
 @import url('overrides.css');
+@import url('minimap.css');
 
 body {
 	margin: 10px !important;

@@ -2,31 +2,63 @@ window.crumbsMap = {
 	mapOptions: {
 		zoom: 16,
 		center: null,
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
+	},
+	staticOptions: {
+		zoom: 13,
 	},
 
 	init: function () {
-		this.draw();
+		this.mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
 	},
 
-	draw: function () {
+	queryDraw: function (target) {
+		// XXX : deprecated; data should come from outside
 		var self = this;
 		if (self.mapOptions.center) {
-			self.map = new google.maps.Map(document.getElementById('map'), self.mapOptions);
+			self.map = new google.maps.Map(target, self.mapOptions);
 		} else {
 			// oops, need to get location information
 			self._queryGeo(function (success) {
-				self.map = new google.maps.Map(document.getElementById('map'), self.mapOptions);
+				self.map = new google.maps.Map(target, self.mapOptions);
+			});
+		}
+	},
+
+	draw: function (target, pos) {
+		var self = this;
+		self._setCenter(pos);
+
+		self.map = new google.maps.Map(target, self.mapOptions);
+	},
+
+	drawstatic: function (target, pos, width, height) {
+		var self = this,
+		imgSrc = '//maps.googleapis.com/maps/api/staticmap?center='+pos.latitude+','+pos.longitude+
+			'&zoom='+self.staticOptions.zoom+
+			'&size='+width+'x'+height+
+			'&sensor=false';
+
+		target.attr('src', imgSrc);
+	},
+
+	addmarker: function (lat, lon, title) {
+		var self = this;
+		if (self.map) {
+			new google.maps.Marker({
+				position: new google.maps.LatLng(lat, lon),
+				map: self.map,
+				title: title,
 			});
 		}
 	},
 
 	_queryGeo: function (cb) {
+		// XXX : deprecated; data should come from outside
 		var self = this;
-		window.geo.getImmediate(
+		window.geo.get(
 			// successful query - may be delayed
 			function (pos) {
-				self._setcenter(pos);
+				self._setCenter(pos);
 				self.dbgmsg('got location: ' + pos);
 				if (cb) {
 					cb(true);
@@ -38,21 +70,20 @@ window.crumbsMap = {
 				if (cb) {
 					cb(false);
 				}
-			},
+			}
+			/*,
 			// first run - may be stored
 			function (pos) {
-				self._setcenter(pos);
+				self._setCenter(pos);
 				self.dbgmsg('got location: ' + pos);
-				self.draw();
-				self.dbgmsg('drew map');
 				if (cb) {
 					cb(true);
 				}
-			}
+			}*/
 		);
 	},
 
-	_setcenter: function (pos) {
+	_setCenter: function (pos) {
 		if (pos) {
 			this.mapOptions.center = new google.maps.LatLng(pos.latitude, pos.longitude);
 		}
@@ -63,3 +94,5 @@ window.crumbsMap = {
 		dbg.append($('<div></div>').text(msg));
 	},
 };
+
+$(document).ready(function () {window.crumbsMap.init();});

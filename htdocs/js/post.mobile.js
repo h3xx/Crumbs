@@ -10,6 +10,9 @@ $(document).ready(function () {
 	okbtn = $('#okbtn').hide(),
 	lath = $('#lat'),
 	lonh = $('#lon'),
+	mmloading = $('<div id="mmloading"></div>'),
+	mmimg = $('<img id="mmimg" />').hide(),
+	minimap = $('#minimap').append(mmloading, mmimg),
 	frmelems = $([]).add(postsub).add(postbody),
 //
 	// fill geolocation hidden inputs
@@ -20,6 +23,11 @@ $(document).ready(function () {
 				georesult.text('Got location.');
 				lath.val(pos.latitude);
 				lonh.val(pos.longitude);
+
+				window.crumbsMap.drawstatic(mmimg, pos, 75, 75);
+				mmloading.hide();
+				mmimg.show();
+
 				if (cb) {
 					cb(true);
 				}

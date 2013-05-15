@@ -25,6 +25,7 @@ my @scripts = qw[
 	js/geo.js
 	js/map.js
 	js/mobile.js
+	js/mapscreen.js
 	js/jq/jquery.mobile.min.js
 ];
 
