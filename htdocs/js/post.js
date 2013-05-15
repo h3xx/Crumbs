@@ -93,6 +93,9 @@ $(document).ready(function () {
 					statresult.text(data.msg);
 					if (!data.result) {
 						frmelems.removeAttr('disabled');
+					} else {
+						window.setTimeout('history.back();', 1000);
+						history.back();
 					}
 				});
 
