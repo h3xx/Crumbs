@@ -18,7 +18,7 @@ $(document).ready(function () {
 			if (data.result) {
 				for (var i in data.list) {
 					var buf = data.list[i];
-					window.crumbsMap.addmarker(buf[2], buf[3], buf[0]);
+					window.crumbsMap.addmarker(buf[2], buf[3], buf[0], buf[1]);
 				}
 			}
 			//window.crumbsMap.draw(mapcanvas[0], window.geo.last);
@@ -47,7 +47,10 @@ $(document).ready(function () {
 		window.dontcateMap = false;
 		window.dontcateGeo = false;
 
-		window.crumbsMap.draw(mapcanvas[0], window.geo.last);
+		if (!window.mapdrawn) {
+			window.crumbsMap.draw(mapcanvas[0], window.geo.last);
+			window.mapdrawn = true;
+		}
 		updateGeo();
 	})
 	.on('pagehide', function () {

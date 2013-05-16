@@ -6,6 +6,7 @@ window.crumbsMap = {
 	staticOptions: {
 		zoom: 13,
 	},
+	markers: {},
 
 	init: function () {
 		this.mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
@@ -41,14 +42,45 @@ window.crumbsMap = {
 		target.attr('src', imgSrc);
 	},
 
-	addmarker: function (lat, lon, title) {
+	addmarker: function (lat, lon, id, user) {
 		var self = this;
-		if (self.map) {
-			new google.maps.Marker({
+		if (self.map && !self.markers[id]) {
+
+			var iwin = new google.maps.InfoWindow({
+				content: 'Loading...',
+			});
+			iwin._privdata = {
+				'id':	id,
+				'user':	user,
+			};
+
+
+			var mrk = new google.maps.Marker({
 				position: new google.maps.LatLng(lat, lon),
 				map: self.map,
-				title: title,
+				title: id,
 			});
+
+			google.maps.event.addListener(mrk, 'click',
+				function() {
+					$.get('/c', {
+						'a': 'get',
+						'id': id,
+					}, function (data) {
+						if (data.result) {
+							iwin.content =
+								'<div>id: ' + data.id + '</div>' +
+								'<div>user: ' + data.user + '</div>' +
+								'<p>' + data.msg + '</p>';
+						} else {
+							iwin.content = 'Failed to load.';
+						}
+						iwin.open(self.map, mrk);
+					});
+				}
+			);
+
+			self.markers[id] = mrk; // keep track of the ones we've drawn
 		}
 	},
 
