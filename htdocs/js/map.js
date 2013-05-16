@@ -2,6 +2,7 @@ window.crumbsMap = {
 	mapOptions: {
 		zoom: 16,
 		center: null,
+		disableDefaultUI: true,
 	},
 	staticOptions: {
 		zoom: 13,
