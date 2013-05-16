@@ -59,10 +59,7 @@ window.crumbsMap = {
 
 			google.maps.event.addListener(mrk, 'click',
 				function () {
-					$.get('/c', {
-						'a': 'get',
-						'id': id,
-					}, function (data) {
+					window.crumbsBs.getCrumb(id, function (id, data) {
 						if (data.result) {
 							iwin.content =
 								'<div class="mapuser">' + data.user + '</div>' +

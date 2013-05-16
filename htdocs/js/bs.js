@@ -2,18 +2,16 @@
  * Session storage for crumbs.
  */
 window.crumbsBs = {
-	webStorageSupported:
-		('localStorage' in window) &&
-		window['localStorage'] !== null,
 
-	servlet: 'content.cgi', // TODO : dummy script
+	servlet: '/c',
+	bsprefix: 'crumb_',
 
 	_save: function (id, content) {
-		window.localStorage.setItem(id, content);
+		window.localStorage.setItem(this.bsprefix + id, JSON.stringify(content));
 	},
 
 	_load: function (id) {
-		return window.localStorage.getItem(id);
+		return JSON.parse(window.localStorage.getItem(this.bsprefix + id));
 	},
 
 	_getFromServer: function (id, cb) {
@@ -27,10 +25,10 @@ window.crumbsBs = {
 			function (data) {
 				if (data.result) {
 					//self.db[id] = data[0];
-					self._save(id, data.msg);
-					if (cb) {
-						cb(id, data.msg);
-					}
+					self._save(id, data);
+				}
+				if (cb) {
+					cb(id, data);
 				}
 			}
 		);

@@ -23,6 +23,7 @@ if ($cgi->http or $cgi->https) {
 my @scripts = qw[
 	js/jq/jquery.min.js
 	js/geo.js
+	js/bs.js
 	js/map.js
 	js/mobile.js
 	js/mapscreen.js
