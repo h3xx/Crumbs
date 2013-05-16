@@ -1,10 +1,12 @@
 $(document).ready(function () {
 	var servlet = '/c',
+	guiUpdateTime = 15000, // 15 seconds
+	pollTid,
 	mapcanvas = $('#mapcanvas')
 	// silly UI hack
 	.attr('data-role', 'button'),
 	updateMap = function () {
-		if (window.updateMap_sem || window.dontcareMap) {
+		if (window.updateMap_sem || window.dontUpdateGui) {
 			return false;
 		}
 		window.updateMap_sem = true;
@@ -26,7 +28,7 @@ $(document).ready(function () {
 		});
 	},
 	updateGeo = function () {
-		if (window.updateGeo_sem || window.dontcareGeo) {
+		if (window.updateGeo_sem || window.dontUpdateGui) {
 			return false;
 		}
 		window.updateGeo_sem = true;
@@ -44,21 +46,31 @@ $(document).ready(function () {
 
 	$('#mappage')
 	.on('pageshow', function () {
-		window.dontcateMap = false;
-		window.dontcateGeo = false;
+		window.dontUpdateGui = false;
 
 		if (!window.mapdrawn) {
 			window.crumbsMap.draw(mapcanvas[0], window.geo.last);
 			window.mapdrawn = true;
 		}
-		updateGeo();
+
+		if (pollTid == null) {
+			updateGeo();
+			pollTid = window.setInterval(
+				function () {
+					updateGeo();
+				},
+				guiUpdateTime
+			);
+		}
+
 	})
 	.on('pagehide', function () {
-		window.dontcateMap = true;
-		window.dontcateGeo = true;
+		window.dontUpdateGui = true;
+
+		if (pollTid != null) {
+			window.clearInterval(pollTid);
+			pollTid = null;
+		}
 	});
-/*
-	$.get(servlet,
-	{
-*/
+
 });
