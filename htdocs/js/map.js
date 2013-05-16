@@ -70,9 +70,8 @@ window.crumbsMap = {
 					}, function (data) {
 						if (data.result) {
 							iwin.content =
-								'<div>id: ' + data.id + '</div>' +
-								'<div>user: ' + data.user + '</div>' +
-								'<p>' + data.msg + '</p>';
+								'<div class="mapuser">' + data.user + '</div>' +
+								'<div class="mapmessage">' + data.msg + '</div>';
 						} else {
 							iwin.content = 'Failed to load.';
 						}

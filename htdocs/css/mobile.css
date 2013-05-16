@@ -12,6 +12,14 @@
 	height: 300px;
 }
 
+.mapuser {
+	font-weight: bold;
+}
+
+.mapmessage {
+	font-weight: normal;
+}
+
 /*
 a:link, a:visited {
 	color: red;
