@@ -23,12 +23,30 @@ $(document).ready(function () {
 		return navbar;
 	}
 
-
+	var footer =
+	$('<div data-role="footer" data-position="fixed" data-id="fb"></div>')
+	.append(
+		$('<a data-role="button" href="https://github.com/h3xx/Crumbs">GitHub</a>')
+	);
 
 	$('#mobsite')
 	.append(
 		$('<div data-role="page" id="main"></div>')
-		.append(navbar_header('')),
+		.append(
+			navbar_header(''),
+			$('<div data-role="content"></div>')
+			.append(
+				$('<h1>Crumbs</h1>'),
+				$('<h2>About</h2>'),
+				$('<p></p>')
+				.text('This project is designed to let you leave messages or "bread crumbs" wherever your GPS-enabled device thinks it is.'),
+				$('<p></p>')
+				.text('That\'s it.'),
+				$('<p></p>')
+				.text('Simple, no?')
+			),
+			footer
+		),
 		$('<div data-role="page" id="accountpage"></div>')
 		.append(
 			navbar_header('account'),
@@ -37,7 +55,8 @@ $(document).ready(function () {
 				$('<a href="/login?m=" data-rel="dialog" data-role="button">Login</a>'),
 				$('<a href="/signup?m=" data-rel="dialog" data-role="button">Sign up</a>'),
 				$('<a href="/logout?m=" data-rel="dialog" data-role="button">Log out</a>')
-			)
+			),
+			footer.clone()
 		),
 		$('<div data-role="page" id="mappage"></div>')
 		.append(
@@ -46,7 +65,8 @@ $(document).ready(function () {
 			.append(
 				$('<a href="/post?m=" data-rel="dialog" data-role="button">Post New Crumb</a>'),
 				$('<div id="mapcanvas"></div>')
-			)
+			),
+			footer.clone()
 		)
 		
 	);
