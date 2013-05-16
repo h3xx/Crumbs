@@ -50,11 +50,6 @@ window.crumbsMap = {
 			var iwin = new google.maps.InfoWindow({
 				content: 'Loading...',
 			});
-			iwin._privdata = {
-				'id':	id,
-				'user':	user,
-			};
-
 
 			var mrk = new google.maps.Marker({
 				position: new google.maps.LatLng(lat, lon),
@@ -63,7 +58,7 @@ window.crumbsMap = {
 			});
 
 			google.maps.event.addListener(mrk, 'click',
-				function() {
+				function () {
 					$.get('/c', {
 						'a': 'get',
 						'id': id,
@@ -91,7 +86,6 @@ window.crumbsMap = {
 			// successful query - may be delayed
 			function (pos) {
 				self._setCenter(pos);
-				self.dbgmsg('got location: ' + pos);
 				if (cb) {
 					cb(true);
 				}
@@ -107,7 +101,6 @@ window.crumbsMap = {
 			// first run - may be stored
 			function (pos) {
 				self._setCenter(pos);
-				self.dbgmsg('got location: ' + pos);
 				if (cb) {
 					cb(true);
 				}
@@ -119,11 +112,6 @@ window.crumbsMap = {
 		if (pos) {
 			this.mapOptions.center = new google.maps.LatLng(pos.latitude, pos.longitude);
 		}
-	},
-
-	dbgmsg: function (msg) {
-		var dbg = $('#debug');
-		dbg.append($('<div></div>').text(msg));
 	},
 };
 
