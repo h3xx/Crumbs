@@ -35,7 +35,8 @@ $(document).ready(function () {
 			$('<div data-role="content"></div>')
 			.append(
 				$('<a href="/login?m=" data-rel="dialog" data-role="button">Login</a>'),
-				$('<a href="/signup?m=" data-rel="dialog" data-role="button">Sign up</a>')
+				$('<a href="/signup?m=" data-rel="dialog" data-role="button">Sign up</a>'),
+				$('<a href="/logout?m=" data-rel="dialog" data-role="button">Log out</a>')
 			)
 		),
 		$('<div data-role="page" id="mappage"></div>')
