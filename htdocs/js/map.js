@@ -47,9 +47,7 @@ window.crumbsMap = {
 		var self = this;
 		if (self.map && !self.markers[id]) {
 
-			var iwin = new google.maps.InfoWindow({
-				content: 'Loading...',
-			});
+			var iwin;
 
 			var mrk = new google.maps.Marker({
 				position: new google.maps.LatLng(lat, lon),
@@ -59,14 +57,26 @@ window.crumbsMap = {
 
 			google.maps.event.addListener(mrk, 'click',
 				function () {
+                    if (iwin) {
+                        iwin.close();
+                    }
+                    iwin = new google.maps.InfoWindow({
+                        content: 'Loading...',
+                    });
+                    iwin.open(self.map, mrk);
 					window.crumbsBs.getCrumb(id, function (id, data) {
+                        var content;
 						if (data.result) {
-							iwin.content =
+							content =
 								'<div class="mapuser">' + data.user + '</div>' +
 								'<div class="mapmessage">' + data.msg + '</div>';
 						} else {
-							iwin.content = 'Failed to load.';
+							content = 'Failed to load.';
 						}
+                        iwin.close();
+                        iwin = new google.maps.InfoWindow({
+                            content: content,
+                        });
 						iwin.open(self.map, mrk);
 					});
 				}
