@@ -1,4 +1,7 @@
 RewriteEngine On
+
+RewriteRule ^$ /m
+
 RewriteRule ^(ua|test|env|dateparse|sess|location)$ /cgi-bin/t/$1.cgi
 
 RewriteRule ^u$ /cgi-bin/useractions.cgi
