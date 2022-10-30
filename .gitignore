@@ -1,9 +1,0 @@
-# Vim files
-*~
-.*.swp
-
-# Dia files
-*.dia.autosave
-
-# compiled Java
-*.class
